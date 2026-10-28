@@ -208,3 +208,41 @@ export const simulate = (adminCode: string, policyId: string, prompts?: string[]
     { method: "POST", body: JSON.stringify({ policyId, prompts, role }) },
     adminCode,
   );
+
+// ---- Dashboard ----
+
+export interface Count {
+  name: string;
+  count: number;
+}
+
+export interface StatsResponse {
+  available: boolean;
+  windowDays: number;
+  total?: number;
+  withSensitiveData?: number;
+  byOutcome?: Count[];
+  byAction?: Count[];
+  byDataClass?: Count[];
+  byProvider?: Count[];
+  byChannel?: Count[];
+  byRole?: Count[];
+  medianLatencyMs?: number | null;
+}
+
+export interface AuditEventView {
+  id: number;
+  at: string;
+  channel: string | null;
+  role: string | null;
+  policy_version: number | null;
+  data_classes: string[] | null;
+  final_action: string | null;
+  rule_ids: string[] | null;
+  provider: string | null;
+  outcome: string | null;
+  latency_ms: number | null;
+}
+
+export const getStats = () => request<StatsResponse>("/api/stats");
+export const getAudit = (adminCode: string) => request<{ events: AuditEventView[] }>("/api/audit", {}, adminCode);

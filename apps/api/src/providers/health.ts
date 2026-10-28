@@ -8,6 +8,7 @@ import { isConfigured } from "./adapters.js";
 const FAILURES_BEFORE_DOWN = 2;
 const DOWN_MS = 60_000;
 const OUTAGE_CACHE_MS = 2_000;
+export const OUTAGE_TTL_MS = 10 * 60_000;
 const DB_TIMEOUT_MS = 3_000;
 
 const runtime = new Map<string, { failures: number; downUntil: number }>();
@@ -35,7 +36,9 @@ export async function getSimulatedOutages(): Promise<Set<string>> {
   const db = getDb();
   if (!db) return new Set(localOutages);
   if (outageCache && Date.now() - outageCache.at < OUTAGE_CACHE_MS) return outageCache.ids;
-  const query = db.from("simulated_outages").select("provider_id").eq("down", true);
+  // Outages expire, so a judge who forgets to restore a provider doesn't break the demo for the next one.
+  const since = new Date(Date.now() - OUTAGE_TTL_MS).toISOString();
+  const query = db.from("simulated_outages").select("provider_id").eq("down", true).gte("updated_at", since);
   const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), DB_TIMEOUT_MS));
   const result = await Promise.race([query, timeout]);
   // If the database can't be read, keep the last known state rather than silently clearing outages.

@@ -57,6 +57,7 @@ export function DemoControls({ onChange }: { onChange?: () => void }) {
           </li>
         ))}
       </ul>
+      <p className="muted">Simulated outages switch themselves off after 10 minutes.</p>
       <button type="button" disabled={busy || !code} onClick={() => run(() => resetDemo(code))}>
         Reset demo (seed policy, no outages)
       </button>
