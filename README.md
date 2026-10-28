@@ -125,7 +125,7 @@ npm run eval             # regenerate the synthetic dataset and eval/results/*
 Lens brings Clearance Gateway's checks to the browser, before text reaches an AI tool.
 
 **Install (Chrome or Edge, "Load unpacked"):**
-1. Download `clearance-gateway-lens.zip` from the [Lens release](https://github.com/shibambocollins/clearance-gateway/releases/tag/lens-v0.2.0) and unzip it, or use the repo's `extension/` folder.
+1. Download `clearance-gateway-lens.zip` from the [Lens release](https://github.com/shibambocollins/clearance-gateway/releases/tag/lens-v0.3.0) and unzip it, or use the repo's `extension/` folder.
 2. Open `chrome://extensions`, switch on **Developer mode**, click **Load unpacked**, and pick the unzipped folder. Pin the Lens icon.
 
 **Four ways to use it:**

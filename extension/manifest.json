@@ -1,18 +1,50 @@
 {
   "manifest_version": 3,
   "name": "Clearance Gateway Lens (demo)",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Checks text with Clearance Gateway before it reaches an AI tool: quick check, right-click check, and opt-in protection per site.",
-  "background": { "service_worker": "background.js" },
-  "permissions": ["storage", "contextMenus", "scripting", "activeTab"],
-  "host_permissions": ["https://clearance-gateway-api.vercel.app/*", "http://localhost:3001/*"],
-  "optional_host_permissions": ["https://*/*", "http://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://clearance-gateway-api.vercel.app/*",
+    "http://localhost:3001/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://clearance-gateway-web.vercel.app/demo-chat*", "http://localhost:5173/demo-chat*"],
-      "js": ["lens-model.js", "content.js"],
+      "matches": [
+        "https://clearance-gateway-web.vercel.app/demo-chat*",
+        "http://localhost:5173/demo-chat*"
+      ],
+      "js": [
+        "lens-model.js",
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ],
-  "action": { "default_popup": "popup.html", "default_title": "Clearance Gateway Lens" }
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Clearance Gateway Lens",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
 }
