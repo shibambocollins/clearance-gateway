@@ -1,54 +1,58 @@
 import { useEffect, useState } from "react";
-import { API_URL, getHealth, type Health } from "./api";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { getHealth, type Health } from "./api";
+import { AdminCodeProvider } from "./adminCode";
+import { AssistantPage } from "./pages/AssistantPage";
 
-type State = { kind: "connecting" } | { kind: "ok"; health: Health } | { kind: "error"; message: string };
+type HealthState = { kind: "connecting" } | { kind: "ok"; health: Health } | { kind: "error" };
 
 export function App() {
-  const [state, setState] = useState<State>({ kind: "connecting" });
+  const [health, setHealth] = useState<HealthState>({ kind: "connecting" });
 
   useEffect(() => {
     getHealth()
-      .then((health) => setState({ kind: "ok", health }))
-      .catch((err: unknown) =>
-        setState({ kind: "error", message: err instanceof Error ? err.message : "Could not reach the API" }),
-      );
+      .then((h) => setHealth({ kind: "ok", health: h }))
+      .catch(() => setHealth({ kind: "error" }));
   }, []);
 
   return (
-    <main>
-      {state.kind === "ok" && state.health.offlineMode && (
-        <div className="banner">Offline mode: replies come from a mock provider, not a real AI model.</div>
+    <AdminCodeProvider>
+      <header className="site-header">
+        <div className="brand">
+          <span className="brand-name">Clearance Gateway</span>
+          <span className="tagline">Data only goes where it's cleared to go.</span>
+        </div>
+        <nav>
+          <NavLink to="/" end>
+            Assistant
+          </NavLink>
+        </nav>
+        <span className={`status status-${health.kind}`} role="status">
+          {health.kind === "connecting" && "Connecting…"}
+          {health.kind === "error" && "API unreachable"}
+          {health.kind === "ok" &&
+            `Policy v${health.health.activePolicyVersion ?? "seed"} · Engine ${health.health.coreVersion}`}
+        </span>
+      </header>
+      {health.kind === "ok" && health.health.offlineMode && (
+        <div className="banner" role="note">
+          Offline mode: every reply comes from a deterministic mock provider, not a real AI model.
+        </div>
       )}
-      <h1>Clearance Gateway</h1>
-      <p className="tagline">Data only goes where it's cleared to go.</p>
-
-      <section className="card">
-        <h2>API status</h2>
-        {state.kind === "connecting" && <p>Connecting…</p>}
-        {state.kind === "error" && (
-          <p className="error">
-            {state.message}. API: <code>{API_URL}</code>
-          </p>
-        )}
-        {state.kind === "ok" && (
-          <dl>
-            <dt>Status</dt>
-            <dd>{state.health.status}</dd>
-            <dt>Engine (core) version</dt>
-            <dd>{state.health.coreVersion}</dd>
-            <dt>Database</dt>
-            <dd>{state.health.db}</dd>
-            <dt>Active policy version</dt>
-            <dd>{state.health.activePolicyVersion ?? "none yet"}</dd>
-            <dt>Offline mode</dt>
-            <dd>{state.health.offlineMode ? "on" : "off"}</dd>
-            <dt>API</dt>
-            <dd>
-              <code>{API_URL}</code>
-            </dd>
-          </dl>
-        )}
-      </section>
-    </main>
+      {health.kind === "ok" && health.health.db !== "ok" && (
+        <div className="banner" role="note">
+          Database {health.health.db.replace("_", " ")}: using the seed policy held in memory.
+        </div>
+      )}
+      <main>
+        <Routes>
+          <Route path="/" element={<AssistantPage />} />
+          <Route path="*" element={<p>Page not found.</p>} />
+        </Routes>
+      </main>
+      <footer className="site-footer">
+        Synthetic data only. Provider tiers are demo configuration, not claims about any vendor's data handling.
+      </footer>
+    </AdminCodeProvider>
   );
 }

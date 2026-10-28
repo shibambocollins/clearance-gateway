@@ -43,7 +43,8 @@ export {
   type Decision,
   type ProviderHealth,
 } from "./route.js";
-export { transform, type Replacement, type TransformResult } from "./transform.js";
-export { explain, type ExplainOptions } from "./explain.js";
+export { transform, valueKey, type Replacement, type TransformResult } from "./transform.js";
+export { explain, explainGuard, type ExplainOptions } from "./explain.js";
+export { guardOutput, type GuardOptions, type GuardResult } from "./outputGuard.js";
 export { check, type CheckOptions, type CheckResult } from "./check.js";
 export { SAMPLE_PROMPTS, type SamplePrompt } from "./samples.js";

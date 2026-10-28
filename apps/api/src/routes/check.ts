@@ -4,6 +4,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { ROLE_IDS, check } from "@clearance-gateway/core";
 import { getActivePolicy } from "../policy/active.js";
+import { getProviderHealth } from "../providers/health.js";
 
 const MAX_TEXT_CHARS = 12_000;
 
@@ -23,7 +24,8 @@ checkRouter.post("/api/check", async (req, res) => {
   }
   const { text, role } = parsed.data;
   const active = await getActivePolicy();
-  const { findings, decision, transformed, explanation } = check(text, { policy: active.policy, role });
+  const health = await getProviderHealth(active.policy);
+  const { findings, decision, transformed, explanation } = check(text, { policy: active.policy, role, health });
 
   res.json({
     policy: { version: active.version, source: active.source, degraded: active.degraded },

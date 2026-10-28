@@ -2,8 +2,11 @@
 import express, { type ErrorRequestHandler } from "express";
 import cors from "cors";
 import { getConfig } from "./config.js";
+import { adminRouter } from "./routes/admin.js";
+import { chatRouter } from "./routes/chat.js";
 import { checkRouter } from "./routes/check.js";
 import { healthRouter } from "./routes/health.js";
+import { providersRouter } from "./routes/providers.js";
 
 const app = express();
 app.disable("x-powered-by");
@@ -23,6 +26,9 @@ app.get("/", (_req, res) => {
 });
 app.use(healthRouter);
 app.use(checkRouter);
+app.use(chatRouter);
+app.use(providersRouter);
+app.use(adminRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "not_found" });

@@ -20,7 +20,7 @@ export interface TransformResult {
 }
 
 /** Same value regardless of case, spacing, separators, zero-width or fullwidth characters. */
-function valueKey(dataClass: DataClassId, value: string): string {
+export function valueKey(dataClass: DataClassId, value: string): string {
   return `${dataClass}:${canonicalise(value).text.text.toLowerCase().replace(/[\s\-./()]+/g, "")}`;
 }
 

@@ -44,3 +44,26 @@ alter table policy_versions enable row level security;
 alter table audit_events    enable row level security;
 alter table usage_counters  enable row level security;
 -- No RLS policies: only the API (service role) can read or write.
+
+-- Simulated provider outages for the failover demo (SPEC §8). Stored in the database, not in
+-- memory, so every serverless instance sees the admin's toggle. Set only via /api/admin/outage.
+create table if not exists simulated_outages (
+  provider_id text primary key,
+  down boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+alter table simulated_outages enable row level security;
+
+-- Atomic per-day usage counter for rate limiting (SPEC §15). Returns the new count.
+create or replace function increment_usage(p_day date, p_client_hash text)
+returns int
+language sql
+set search_path = public
+as $$
+  insert into usage_counters (day, client_hash, count) values (p_day, p_client_hash, 1)
+  on conflict (day, client_hash) do update set count = usage_counters.count + 1
+  returning count;
+$$;
+-- Only the API (service role) may call it; never anonymous clients through the Data API.
+revoke execute on function increment_usage(date, text) from public, anon, authenticated;
+grant execute on function increment_usage(date, text) to service_role;
