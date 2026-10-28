@@ -1,0 +1,948 @@
+{
+  "generatedAt": "2026-10-28T21:13:20.170Z",
+  "runs": 3,
+  "valid": 3,
+  "runsWithLooserCells": 0,
+  "identicalDecisionsToGolden": 0,
+  "details": [
+    {
+      "run": 1,
+      "ok": true,
+      "compiledBy": "gemini:gemini-3.5-flash-lite",
+      "attempts": [
+        {
+          "provider": "gemini",
+          "outcome": "valid"
+        }
+      ],
+      "seconds": 4.7,
+      "rules": 16,
+      "clauseCoverage": {
+        "covered": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "missing": []
+      },
+      "coaching": true,
+      "looserThanGolden": 0,
+      "stricterThanGolden": 35,
+      "cellChanges": [
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        }
+      ],
+      "levelChanges": [],
+      "terms": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "run": 2,
+      "ok": true,
+      "compiledBy": "gemini:gemini-3.5-flash-lite",
+      "attempts": [
+        {
+          "provider": "gemini",
+          "outcome": "valid"
+        }
+      ],
+      "seconds": 3.5,
+      "rules": 16,
+      "clauseCoverage": {
+        "covered": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "missing": []
+      },
+      "coaching": true,
+      "looserThanGolden": 0,
+      "stricterThanGolden": 35,
+      "cellChanges": [
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        }
+      ],
+      "levelChanges": [],
+      "terms": {
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "run": 3,
+      "ok": true,
+      "compiledBy": "gemini:gemini-3.5-flash-lite",
+      "attempts": [
+        {
+          "provider": "gemini",
+          "outcome": "valid"
+        }
+      ],
+      "seconds": 3.6,
+      "rules": 16,
+      "clauseCoverage": {
+        "covered": [
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "missing": []
+      },
+      "coaching": true,
+      "looserThanGolden": 0,
+      "stricterThanGolden": 35,
+      "cellChanges": [
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "SA_ID",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "CARD_NUMBER",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "general",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "hr",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "finance",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 1,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 2,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        },
+        {
+          "dataClass": "BANK_ACCOUNT",
+          "role": "engineering",
+          "tier": 3,
+          "from": "redact",
+          "to": "block",
+          "direction": "stricter"
+        }
+      ],
+      "levelChanges": [],
+      "terms": {
+        "added": [],
+        "removed": []
+      }
+    }
+  ]
+}

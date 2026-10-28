@@ -6,6 +6,8 @@ import { AssistantPage } from "./pages/AssistantPage";
 
 // Charts are heavy; load them only when the Evaluation page is opened.
 const EvaluationPage = lazy(() => import("./pages/EvaluationPage").then((m) => ({ default: m.EvaluationPage })));
+const AdminPolicyPage = lazy(() => import("./pages/AdminPolicyPage").then((m) => ({ default: m.AdminPolicyPage })));
+const AdminSimulatePage = lazy(() => import("./pages/AdminSimulatePage").then((m) => ({ default: m.AdminSimulatePage })));
 
 type HealthState = { kind: "connecting" } | { kind: "ok"; health: Health } | { kind: "error" };
 
@@ -30,6 +32,8 @@ export function App() {
             Assistant
           </NavLink>
           <NavLink to="/evaluation">Evaluation</NavLink>
+          <NavLink to="/admin/policy">Policy</NavLink>
+          <NavLink to="/admin/simulate">Simulator</NavLink>
         </nav>
         <span className={`status status-${health.kind}`} role="status">
           {health.kind === "connecting" && "Connecting…"}
@@ -56,6 +60,22 @@ export function App() {
             element={
               <Suspense fallback={<p>Loading results…</p>}>
                 <EvaluationPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/policy"
+            element={
+              <Suspense fallback={<p>Loading…</p>}>
+                <AdminPolicyPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/admin/simulate"
+            element={
+              <Suspense fallback={<p>Loading…</p>}>
+                <AdminSimulatePage />
               </Suspense>
             }
           />

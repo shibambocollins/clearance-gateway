@@ -23,3 +23,10 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - **Token restore depends on the model keeping placeholders.** If a model rewrites `[CLIENT_NAME_1]` as "the client", nothing is restored there. Leftover placeholders are counted and shown, but rewritten ones can't be counted.
 - **Mock replies** (tier 1 in the demo, and everything in offline mode) are deterministic text, not real AI answers.
 - **Models imitate the placeholder format.** In a live test, Gemini answered a prompt containing `[REDACTED:EMAIL]` with a reply addressed to `[CLIENT_NAME_1]`, a placeholder it invented. The guard can't restore a placeholder it never issued; it leaves it and counts it as unrestored.
+
+## Policy compiler (Phase 4)
+
+- **The compiler is an LLM.** It can misread ambiguous wording. In the compiler check it read "never send … numbers" as *block the request*, where the hand-written policy *removes the value* (stricter, never looser in 3/3 runs). Mitigations: schema validation, configuration the LLM cannot touch, a decision diff with looser changes flagged, the simulator, and manual activation. Nothing compiled is ever enforced without an admin activating it.
+- **The compiler check uses one policy text** (the seed), 3 runs, one model. That is not a broad accuracy study.
+- **Prompt injection in policy text** is mitigated by delimiters and the "text is data" instruction, and every output is validated and reviewed. It is not formally tested.
+- **No concurrency control on versions:** two admins compiling at the same moment could race for the next version number. Demo scope.
