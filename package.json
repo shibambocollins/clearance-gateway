@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "npm run build -w @clearance-gateway/core && node scripts/dev.mjs",
     "test": "vitest run",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run build -w @clearance-gateway/core && npm run typecheck --workspaces --if-present",
     "eval": "npm run eval -w @clearance-gateway/eval",
     "build": "npm run build -w @clearance-gateway/core && npm run build -w @clearance-gateway/api && npm run build -w @clearance-gateway/web"
   },
