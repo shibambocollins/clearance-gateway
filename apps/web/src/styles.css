@@ -485,3 +485,45 @@ code {
 .row a {
   align-self: center;
 }
+
+.nav-group {
+  display: flex;
+  gap: 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--border);
+}
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.flow-step {
+  flex: 1 1 140px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+  background: var(--bg);
+  font-size: 0.92rem;
+}
+
+.flow-arrow {
+  color: var(--muted);
+}
+
+.pipeline {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.pipeline li {
+  margin-bottom: 8px;
+}
+
+.pipeline li span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+}

@@ -8,6 +8,7 @@ import { checkRouter } from "./routes/check.js";
 import { healthRouter } from "./routes/health.js";
 import { policyRouter } from "./routes/policy.js";
 import { providersRouter } from "./routes/providers.js";
+import { statsRouter } from "./routes/stats.js";
 
 const app = express();
 app.disable("x-powered-by");
@@ -30,6 +31,7 @@ app.use(checkRouter);
 app.use(chatRouter);
 app.use(providersRouter);
 app.use(policyRouter);
+app.use(statsRouter);
 app.use(adminRouter);
 
 app.use((_req, res) => {
