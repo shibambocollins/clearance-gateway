@@ -1,0 +1,959 @@
+{
+  "generatedAt": "2026-10-28T19:31:48.345Z",
+  "seed": 20261029,
+  "engineVersion": "0.3.0",
+  "dataset": {
+    "synthetic": true,
+    "total": 307,
+    "labels": 201,
+    "bySplit": {
+      "dev": 112,
+      "test": 195
+    },
+    "byCategory": {
+      "test": {
+        "clean": 36,
+        "sensitive": 60,
+        "evasion": 54,
+        "trap": 45
+      },
+      "dev": {
+        "clean": 24,
+        "sensitive": 36,
+        "evasion": 27,
+        "trap": 25
+      }
+    },
+    "templates": {
+      "total": 67,
+      "dev": 24,
+      "test": 43
+    },
+    "templateDisjoint": true,
+    "unhandledEvasionTypes": [
+      "digits-as-words",
+      "at-dot"
+    ]
+  },
+  "configs": {
+    "A": {
+      "label": "A. No gateway (everything sent)",
+      "test": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 12,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CARD_NUMBER": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 15,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "BANK_ACCOUNT": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 18,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "EMAIL": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 12,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "PHONE": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 21,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CREDENTIAL": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 30,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CLIENT_NAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 12,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "PROJECT_CODENAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 6,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          }
+        },
+        "overall": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 126,
+          "precision": null,
+          "recall": 0,
+          "f1": null
+        },
+        "evasion": {
+          "caught": 0,
+          "total": 54,
+          "byType": {
+            "dashed": {
+              "caught": 0,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 0,
+              "total": 9
+            },
+            "line-break": {
+              "caught": 0,
+              "total": 15
+            },
+            "digits-as-words": {
+              "caught": 0,
+              "total": 3
+            },
+            "spaced": {
+              "caught": 0,
+              "total": 3
+            },
+            "fullwidth": {
+              "caught": 0,
+              "total": 15
+            },
+            "at-dot": {
+              "caught": 0,
+              "total": 3
+            }
+          },
+          "rate": 0
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 45,
+          "rate": 0
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 36,
+          "rate": 0
+        }
+      },
+      "dev": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 18,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CARD_NUMBER": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 12,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "BANK_ACCOUNT": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 3,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "EMAIL": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 15,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "PHONE": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 9,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CREDENTIAL": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 9,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "CLIENT_NAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 9,
+            "precision": null,
+            "recall": 0,
+            "f1": null
+          },
+          "PROJECT_CODENAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          }
+        },
+        "overall": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 75,
+          "precision": null,
+          "recall": 0,
+          "f1": null
+        },
+        "evasion": {
+          "caught": 0,
+          "total": 27,
+          "byType": {
+            "spaced": {
+              "caught": 0,
+              "total": 9
+            },
+            "fullwidth": {
+              "caught": 0,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 0,
+              "total": 12
+            }
+          },
+          "rate": 0
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 25,
+          "rate": 0
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 24,
+          "rate": 0
+        }
+      }
+    },
+    "B": {
+      "label": "B. Regex-only (no validators, canonicalisation or context)",
+      "test": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 0,
+            "fp": 10,
+            "fn": 12,
+            "precision": 0,
+            "recall": 0,
+            "f1": null
+          },
+          "CARD_NUMBER": {
+            "tp": 9,
+            "fp": 18,
+            "fn": 6,
+            "precision": 0.333,
+            "recall": 0.6,
+            "f1": 0.429
+          },
+          "BANK_ACCOUNT": {
+            "tp": 12,
+            "fp": 23,
+            "fn": 6,
+            "precision": 0.343,
+            "recall": 0.667,
+            "f1": 0.453
+          },
+          "EMAIL": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 6,
+            "precision": 1,
+            "recall": 0.5,
+            "f1": 0.667
+          },
+          "PHONE": {
+            "tp": 12,
+            "fp": 5,
+            "fn": 9,
+            "precision": 0.706,
+            "recall": 0.571,
+            "f1": 0.632
+          },
+          "CREDENTIAL": {
+            "tp": 24,
+            "fp": 2,
+            "fn": 6,
+            "precision": 0.923,
+            "recall": 0.8,
+            "f1": 0.857
+          },
+          "CLIENT_NAME": {
+            "tp": 6,
+            "fp": 1,
+            "fn": 6,
+            "precision": 0.857,
+            "recall": 0.5,
+            "f1": 0.632
+          },
+          "PROJECT_CODENAME": {
+            "tp": 6,
+            "fp": 1,
+            "fn": 0,
+            "precision": 0.857,
+            "recall": 1,
+            "f1": 0.923
+          }
+        },
+        "overall": {
+          "tp": 75,
+          "fp": 60,
+          "fn": 51,
+          "precision": 0.556,
+          "recall": 0.595,
+          "f1": 0.575
+        },
+        "evasion": {
+          "caught": 3,
+          "total": 54,
+          "byType": {
+            "dashed": {
+              "caught": 3,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 0,
+              "total": 9
+            },
+            "line-break": {
+              "caught": 0,
+              "total": 15
+            },
+            "digits-as-words": {
+              "caught": 0,
+              "total": 3
+            },
+            "spaced": {
+              "caught": 0,
+              "total": 3
+            },
+            "fullwidth": {
+              "caught": 0,
+              "total": 15
+            },
+            "at-dot": {
+              "caught": 0,
+              "total": 3
+            }
+          },
+          "rate": 0.056
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 29,
+          "cases": 45,
+          "rate": 0.644
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 36,
+          "rate": 0
+        }
+      },
+      "dev": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 12,
+            "fp": 5,
+            "fn": 6,
+            "precision": 0.706,
+            "recall": 0.667,
+            "f1": 0.686
+          },
+          "CARD_NUMBER": {
+            "tp": 9,
+            "fp": 25,
+            "fn": 3,
+            "precision": 0.265,
+            "recall": 0.75,
+            "f1": 0.391
+          },
+          "BANK_ACCOUNT": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 3,
+            "precision": 0,
+            "recall": 0,
+            "f1": null
+          },
+          "EMAIL": {
+            "tp": 12,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.8,
+            "f1": 0.889
+          },
+          "PHONE": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.667,
+            "f1": 0.8
+          },
+          "CREDENTIAL": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.667,
+            "f1": 0.8
+          },
+          "CLIENT_NAME": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.667,
+            "f1": 0.8
+          },
+          "PROJECT_CODENAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          }
+        },
+        "overall": {
+          "tp": 51,
+          "fp": 31,
+          "fn": 24,
+          "precision": 0.622,
+          "recall": 0.68,
+          "f1": 0.65
+        },
+        "evasion": {
+          "caught": 3,
+          "total": 27,
+          "byType": {
+            "spaced": {
+              "caught": 3,
+              "total": 9
+            },
+            "fullwidth": {
+              "caught": 0,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 0,
+              "total": 12
+            }
+          },
+          "rate": 0.111
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 10,
+          "cases": 25,
+          "rate": 0.4
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 24,
+          "rate": 0
+        }
+      }
+    },
+    "C": {
+      "label": "C. Clearance Gateway (full deterministic pipeline)",
+      "test": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.75,
+            "f1": 0.857
+          },
+          "CARD_NUMBER": {
+            "tp": 15,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "BANK_ACCOUNT": {
+            "tp": 18,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "EMAIL": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.75,
+            "f1": 0.857
+          },
+          "PHONE": {
+            "tp": 21,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "CREDENTIAL": {
+            "tp": 27,
+            "fp": 0,
+            "fn": 3,
+            "precision": 1,
+            "recall": 0.9,
+            "f1": 0.947
+          },
+          "CLIENT_NAME": {
+            "tp": 12,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "PROJECT_CODENAME": {
+            "tp": 6,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "overall": {
+          "tp": 117,
+          "fp": 0,
+          "fn": 9,
+          "precision": 1,
+          "recall": 0.929,
+          "f1": 0.963
+        },
+        "evasion": {
+          "caught": 45,
+          "total": 54,
+          "byType": {
+            "dashed": {
+              "caught": 6,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 9,
+              "total": 9
+            },
+            "line-break": {
+              "caught": 12,
+              "total": 15
+            },
+            "digits-as-words": {
+              "caught": 0,
+              "total": 3
+            },
+            "spaced": {
+              "caught": 3,
+              "total": 3
+            },
+            "fullwidth": {
+              "caught": 15,
+              "total": 15
+            },
+            "at-dot": {
+              "caught": 0,
+              "total": 3
+            }
+          },
+          "rate": 0.833
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 45,
+          "rate": 0
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 36,
+          "rate": 0
+        }
+      },
+      "dev": {
+        "perClass": {
+          "SA_ID": {
+            "tp": 18,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "CARD_NUMBER": {
+            "tp": 12,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "BANK_ACCOUNT": {
+            "tp": 3,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "EMAIL": {
+            "tp": 15,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "PHONE": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "CREDENTIAL": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "CLIENT_NAME": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "PROJECT_CODENAME": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          }
+        },
+        "overall": {
+          "tp": 75,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1
+        },
+        "evasion": {
+          "caught": 27,
+          "total": 27,
+          "byType": {
+            "spaced": {
+              "caught": 9,
+              "total": 9
+            },
+            "fullwidth": {
+              "caught": 6,
+              "total": 6
+            },
+            "zero-width": {
+              "caught": 12,
+              "total": 12
+            }
+          },
+          "rate": 1
+        },
+        "trapFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 25,
+          "rate": 0
+        },
+        "cleanFalsePositives": {
+          "casesWithFinding": 0,
+          "cases": 24,
+          "rate": 0
+        }
+      }
+    }
+  },
+  "leakage": {
+    "test": {
+      "A": 126,
+      "B": 48,
+      "C": 9,
+      "labelsRequiringProtection": 126,
+      "cBlockedRequests": 27
+    },
+    "dev": {
+      "A": 69,
+      "B": 21,
+      "C": 0,
+      "labelsRequiringProtection": 69,
+      "cBlockedRequests": 9
+    }
+  },
+  "failover": {
+    "test": [
+      {
+        "scenario": "Tier 1 down",
+        "providersDown": [
+          "mock-enterprise"
+        ],
+        "confidentialOrRestricted": {
+          "requests": 87,
+          "naiveUnsafe": 87,
+          "oursUnsafe": 6,
+          "oursRoutingErrors": 0,
+          "oursDetectionMisses": 6,
+          "oursBlocked": 81
+        },
+        "detectionMissTemplates": [
+          "evasion-id-digits-as-words",
+          "evasion-aws-line-break"
+        ],
+        "byLevel": {
+          "confidential": {
+            "requests": 57,
+            "naiveUnsafe": 57,
+            "oursUnsafe": 3,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 3,
+            "oursBlocked": 54,
+            "oursSent": 3
+          },
+          "internal": {
+            "requests": 27,
+            "naiveUnsafe": 0,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 0,
+            "oursSent": 27
+          },
+          "restricted": {
+            "requests": 30,
+            "naiveUnsafe": 30,
+            "oursUnsafe": 3,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 3,
+            "oursBlocked": 27,
+            "oursSent": 3
+          }
+        }
+      },
+      {
+        "scenario": "Tiers 1 and 2 down",
+        "providersDown": [
+          "mock-enterprise",
+          "gemini"
+        ],
+        "confidentialOrRestricted": {
+          "requests": 87,
+          "naiveUnsafe": 87,
+          "oursUnsafe": 6,
+          "oursRoutingErrors": 0,
+          "oursDetectionMisses": 6,
+          "oursBlocked": 81
+        },
+        "detectionMissTemplates": [
+          "evasion-id-digits-as-words",
+          "evasion-aws-line-break"
+        ],
+        "byLevel": {
+          "confidential": {
+            "requests": 57,
+            "naiveUnsafe": 57,
+            "oursUnsafe": 3,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 3,
+            "oursBlocked": 54,
+            "oursSent": 3
+          },
+          "internal": {
+            "requests": 27,
+            "naiveUnsafe": 27,
+            "oursUnsafe": 3,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 3,
+            "oursBlocked": 24,
+            "oursSent": 3
+          },
+          "restricted": {
+            "requests": 30,
+            "naiveUnsafe": 30,
+            "oursUnsafe": 3,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 3,
+            "oursBlocked": 27,
+            "oursSent": 3
+          }
+        }
+      }
+    ],
+    "dev": [
+      {
+        "scenario": "Tier 1 down",
+        "providersDown": [
+          "mock-enterprise"
+        ],
+        "confidentialOrRestricted": {
+          "requests": 51,
+          "naiveUnsafe": 51,
+          "oursUnsafe": 0,
+          "oursRoutingErrors": 0,
+          "oursDetectionMisses": 0,
+          "oursBlocked": 51
+        },
+        "detectionMissTemplates": [],
+        "byLevel": {
+          "confidential": {
+            "requests": 42,
+            "naiveUnsafe": 42,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 42,
+            "oursSent": 0
+          },
+          "internal": {
+            "requests": 12,
+            "naiveUnsafe": 0,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 0,
+            "oursSent": 12
+          },
+          "restricted": {
+            "requests": 9,
+            "naiveUnsafe": 9,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 9,
+            "oursSent": 0
+          }
+        }
+      },
+      {
+        "scenario": "Tiers 1 and 2 down",
+        "providersDown": [
+          "mock-enterprise",
+          "gemini"
+        ],
+        "confidentialOrRestricted": {
+          "requests": 51,
+          "naiveUnsafe": 51,
+          "oursUnsafe": 0,
+          "oursRoutingErrors": 0,
+          "oursDetectionMisses": 0,
+          "oursBlocked": 51
+        },
+        "detectionMissTemplates": [],
+        "byLevel": {
+          "confidential": {
+            "requests": 42,
+            "naiveUnsafe": 42,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 42,
+            "oursSent": 0
+          },
+          "internal": {
+            "requests": 12,
+            "naiveUnsafe": 12,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 12,
+            "oursSent": 0
+          },
+          "restricted": {
+            "requests": 9,
+            "naiveUnsafe": 9,
+            "oursUnsafe": 0,
+            "oursRoutingErrors": 0,
+            "oursDetectionMisses": 0,
+            "oursBlocked": 9,
+            "oursSent": 0
+          }
+        }
+      }
+    ]
+  },
+  "policyMatrix": {
+    "cells": 96,
+    "C": {
+      "passed": 96,
+      "rate": 1,
+      "failures": []
+    },
+    "A": {
+      "passed": 2,
+      "rate": 0.021
+    }
+  },
+  "latency": {
+    "p50Ms": 0.068,
+    "p95Ms": 0.129,
+    "calls": 975
+  },
+  "notes": [
+    "All data is synthetic, generated from the seed. Reproduce with: npm run eval (BENCH_SEED overrides the seed).",
+    "Split by template: no sentence template used in test appears in dev.",
+    "No parameters were tuned: the only tunable detector (entropy) is not built. Dev is reported for transparency.",
+    "Configuration D (second opinion) was not built.",
+    "Evasion types digits-as-words and at-dot are included on purpose even though the Engine does not handle them.",
+    "Failover safety counts requests whose true sensitivity (from labels) exceeds the receiving provider's clearance.",
+    "Leakage counts labelled values the policy says must be protected that would reach a provider not fully redacted or pseudonymised (tier 1 healthy)."
+  ]
+}
