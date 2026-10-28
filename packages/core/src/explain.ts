@@ -1,5 +1,6 @@
 // Explanations (SPEC §9): plain-English lines telling the employee what happened and why.
 import type { FindingDecision } from "./decide.js";
+import type { GuardResult } from "./outputGuard.js";
 import type { CompiledPolicy, RoleId } from "./policy/schema.js";
 import { ROUTE_RULE_ID, type Candidate, type Decision } from "./route.js";
 import type { DataClassId } from "./types.js";
@@ -65,6 +66,24 @@ function skippedText(candidate: Candidate, decision: Decision): string {
     default:
       return candidate.label;
   }
+}
+
+/** Lines describing what the output guard changed in the reply (empty when nothing changed). */
+export function explainGuard(guard: GuardResult): string[] {
+  const lines: string[] = [];
+  if (guard.leaks.canary + guard.leaks.systemPrompt > 0) {
+    lines.push("Removed text from the reply that looked like internal instructions or planted test strings (output guard).");
+  }
+  if (guard.redacted.length > 0) {
+    const counts = describeCounts(guard.redacted.map((finding) => ({ finding, action: "redact", ruleId: null })));
+    lines.push(`Removed ${counts} from the reply that were not in your prompt (output guard).`);
+  }
+  if (guard.unrestored > 0) {
+    lines.push(
+      `${guard.unrestored} placeholder${guard.unrestored === 1 ? "" : "s"} in the reply could not be restored.`,
+    );
+  }
+  return lines;
 }
 
 export function explain(decision: Decision, policy: CompiledPolicy, options: ExplainOptions): string[] {

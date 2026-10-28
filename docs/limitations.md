@@ -14,3 +14,11 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - **Credential assignments** after a colon need a digit or symbol in an unquoted value, so `password: correcthorsebattery` (letters only) is missed. Assignments with `=` or quoted values are detected. Secrets with no keyword and no known format are left to the entropy detector (COULD, not built yet).
 - **Evasion handled:** spaces, dashes, dots, slashes and brackets between digit groups (up to 3 characters), line breaks inside numbers, zero-width characters, and fullwidth digits/letters (NFKC). **Not handled:** digits written as words ("eight zero zero one…"), homoglyphs outside NFKC (e.g. Cyrillic letters in an email), `name [at] example [dot] com`, base64 or other encodings, and data split across multiple messages.
 - **Terms** (client names, codenames) match whole words only, case-insensitively, including across line breaks. Misspellings are not matched (fuzzy matching is a COULD item). Plurals and compound words ("Fynbosch") are deliberately not matched.
+
+## Chat path (Phase 3)
+
+- **Provider health is per serverless instance** for real failures (2 consecutive failures → 60 s down). Simulated outages are shared through the database with up to a 2-second delay.
+- **Rate limiting is by salted IP hash.** Visitors behind one NAT or proxy share a quota. Over the limit, or if usage can't be counted, replies come from the mock provider (and the UI says so).
+- **The output guard is pattern-based**, like detection. It removes sensitive data the model introduced, and system-prompt fragments it echoes **verbatim**. A paraphrased leak is not caught.
+- **Token restore depends on the model keeping placeholders.** If a model rewrites `[CLIENT_NAME_1]` as "the client", nothing is restored there. Leftover placeholders are counted and shown, but rewritten ones can't be counted.
+- **Mock replies** (tier 1 in the demo, and everything in offline mode) are deterministic text, not real AI answers.
