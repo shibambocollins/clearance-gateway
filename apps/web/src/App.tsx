@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { getHealth, type Health } from "./api";
 import { AdminCodeProvider } from "./adminCode";
 import { AssistantPage } from "./pages/AssistantPage";
+
+// Charts are heavy; load them only when the Evaluation page is opened.
+const EvaluationPage = lazy(() => import("./pages/EvaluationPage").then((m) => ({ default: m.EvaluationPage })));
 
 type HealthState = { kind: "connecting" } | { kind: "ok"; health: Health } | { kind: "error" };
 
@@ -26,6 +29,7 @@ export function App() {
           <NavLink to="/" end>
             Assistant
           </NavLink>
+          <NavLink to="/evaluation">Evaluation</NavLink>
         </nav>
         <span className={`status status-${health.kind}`} role="status">
           {health.kind === "connecting" && "Connecting…"}
@@ -47,6 +51,14 @@ export function App() {
       <main>
         <Routes>
           <Route path="/" element={<AssistantPage />} />
+          <Route
+            path="/evaluation"
+            element={
+              <Suspense fallback={<p>Loading results…</p>}>
+                <EvaluationPage />
+              </Suspense>
+            }
+          />
           <Route path="*" element={<p>Page not found.</p>} />
         </Routes>
       </main>

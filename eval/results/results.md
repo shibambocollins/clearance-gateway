@@ -1,6 +1,6 @@
 # Clearance Gateway Bench results
 
-Generated 2026-10-28T19:31:48.345Z · seed `20261029` · Engine 0.3.0 · **synthetic data only**
+Generated 2026-10-28T20:38:02.118Z · seed `20261029` · Engine 0.3.0 · **synthetic data only**
 
 Dataset: 307 prompts (201 labelled spans): test 195, dev 112. 67 templates (test 43, dev 24); template-disjoint: **yes**.
 
@@ -64,7 +64,7 @@ Role × data class × provider tier: 96 cells. Configuration C: 96/96 (100.0%). 
 
 ## Latency
 
-In-process `check()` (detect → route → transform → explain), no network: p50 0.068 ms, p95 0.129 ms over 975 calls.
+In-process `check()` (detect → route → transform → explain), no network: p50 0.129 ms, p95 0.348 ms over 975 calls.
 
 ## Notes
 

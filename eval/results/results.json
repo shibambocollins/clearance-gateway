@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T19:31:48.345Z",
+  "generatedAt": "2026-10-28T20:38:02.118Z",
   "seed": 20261029,
   "engineVersion": "0.3.0",
   "dataset": {
@@ -943,8 +943,8 @@
     }
   },
   "latency": {
-    "p50Ms": 0.068,
-    "p95Ms": 0.129,
+    "p50Ms": 0.129,
+    "p95Ms": 0.348,
     "calls": 975
   },
   "notes": [
