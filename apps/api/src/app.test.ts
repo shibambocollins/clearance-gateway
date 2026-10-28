@@ -30,6 +30,7 @@ describe("GET /health", () => {
       offlineMode: false,
       db: "not_configured",
       activePolicyVersion: null,
+      policySource: "seed (database not configured)",
     });
   });
 

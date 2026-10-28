@@ -2,6 +2,7 @@
 import express, { type ErrorRequestHandler } from "express";
 import cors from "cors";
 import { getConfig } from "./config.js";
+import { checkRouter } from "./routes/check.js";
 import { healthRouter } from "./routes/health.js";
 
 const app = express();
@@ -21,6 +22,7 @@ app.get("/", (_req, res) => {
   res.json({ service: "Clearance Gateway API", health: "/health" });
 });
 app.use(healthRouter);
+app.use(checkRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "not_found" });
