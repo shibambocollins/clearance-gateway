@@ -293,24 +293,24 @@
 
   const STYLES = `
     .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 2147483647; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
-    .panel { background: #fff; color: #1b1b1b; max-width: 520px; width: calc(100% - 32px); border-radius: 10px; padding: 18px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.3); border-top: 6px solid #0f6b4f; }
-    .panel.blocked, .panel.error { border-top-color: #9c1c1c; }
-    .panel.modify { border-top-color: #8a4b00; }
-    .brand { font-size: 12px; font-weight: 700; color: #0f6b4f; letter-spacing: .02em; }
+    .panel { background: #fff; color: #1b1b1b; max-width: 520px; width: calc(100% - 32px); border-radius: 10px; padding: 18px 20px; box-shadow: 0 10px 30px rgba(0,0,0,.3); border-top: 6px solid #12503a; }
+    .panel.blocked, .panel.error { border-top-color: #a65d3a; }
+    .panel.modify { border-top-color: #7d8b6a; }
+    .brand { font-size: 12px; font-weight: 700; color: #12503a; letter-spacing: .02em; }
     h2 { font-size: 18px; margin: 6px 0 8px; }
     p { margin: 0 0 8px; }
     ul { margin: 0 0 10px; padding-left: 20px; }
     .label { font-weight: 600; margin-top: 6px; }
-    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f3ef; border-radius: 6px; padding: 8px; font: 13px/1.4 ui-monospace, Consolas, monospace; max-height: 200px; overflow: auto; user-select: text; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f1efe8; border-radius: 6px; padding: 8px; font: 13px/1.4 ui-monospace, Consolas, monospace; max-height: 200px; overflow: auto; user-select: text; }
     .buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
     button { font: inherit; padding: 7px 14px; border-radius: 6px; border: 1px solid #c9c9c2; background: #fff; color: #1b1b1b; cursor: pointer; }
-    button.primary { background: #0f6b4f; border-color: #0f6b4f; color: #fff; font-weight: 600; }
-    a { color: #0f6b4f; margin-left: auto; }
+    button.primary { background: #12503a; border-color: #0a3527; color: #fbfaf7; font-weight: 600; box-shadow: 3px 3px 0 #0a3527; }
+    a { color: #12503a; margin-left: auto; }
     @media (prefers-color-scheme: dark) {
       .panel { background: #1d1d1d; color: #ececec; }
       pre { background: #2a2a2a; }
       button { background: #1d1d1d; color: #ececec; border-color: #444; }
-      .brand, a { color: #4fc49b; }
+      .brand, a { color: #7fbf9e; }
     }
   `;
 })();

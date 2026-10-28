@@ -71,6 +71,10 @@ export function AssistantPage() {
 
   return (
     <div className="assistant">
+      <header className="page-header">
+        <h1>Assistant</h1>
+        <p>Your prompt is checked against the company AI policy before anything leaves. You see what will be sent, and why.</p>
+      </header>
       <section className="card">
         <div className="row">
           <label className="field">
@@ -134,7 +138,7 @@ export function AssistantPage() {
           </div>
         )}
 
-        <button type="button" className="primary" disabled={!text.trim() || sending} onClick={send}>
+        <button type="button" className={sending ? "primary busy" : "primary"} disabled={!text.trim() || sending} onClick={send}>
           {sending ? "Sending…" : "Send"}
         </button>
         {error && <p className="error">{error}</p>}

@@ -108,7 +108,12 @@ export function AdminPolicyPage() {
       <section className="card">
         <h2>Policy text {active?.version ? <span className="muted">(active: version {active.version})</span> : null}</h2>
         <textarea value={text} onChange={(e) => setText(e.target.value)} rows={14} maxLength={8000} aria-label="Policy text" />
-        <button type="button" className="primary" disabled={!code || busy !== null || text.trim().length < 20} onClick={compile}>
+        <button
+          type="button"
+          className={busy === "compile" ? "primary busy" : "primary"}
+          disabled={!code || busy !== null || text.trim().length < 20}
+          onClick={compile}
+        >
           {busy === "compile" ? "Compiling…" : "Compile to a draft"}
         </button>
         {error && <p className="error">{error}</p>}

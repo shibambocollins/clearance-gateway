@@ -27,12 +27,12 @@ function CountChart({ title, data, describe }: { title: string; data: Count[]; d
                 contentStyle={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, color: "var(--fg)" }}
                 cursor={{ fill: "var(--chart-grid)" }}
               />
-              <Bar dataKey="count" name="Requests" fill="var(--series-1)" radius={[0, 4, 4, 0]} maxBarSize={24}>
+              <Bar dataKey="count" name="Requests" fill="var(--chart-single)" radius={[0, 4, 4, 0]} maxBarSize={24} isAnimationActive={false}>
                 <LabelList dataKey="count" position="right" fill="var(--fg)" fontSize={12} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
-          <table className="data-table">
+          <table className="data-table count-table">
             <caption>{title}</caption>
             <tbody>
               {rows.map((r) => (
