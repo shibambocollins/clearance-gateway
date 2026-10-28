@@ -1,12 +1,14 @@
-export type DataClassId =
-  | "SA_ID"
-  | "CARD_NUMBER"
-  | "BANK_ACCOUNT"
-  | "EMAIL"
-  | "PHONE"
-  | "CREDENTIAL"
-  | "CLIENT_NAME"
-  | "PROJECT_CODENAME";
+export const DATA_CLASS_IDS = [
+  "SA_ID",
+  "CARD_NUMBER",
+  "BANK_ACCOUNT",
+  "EMAIL",
+  "PHONE",
+  "CREDENTIAL",
+  "CLIENT_NAME",
+  "PROJECT_CODENAME",
+] as const;
+export type DataClassId = (typeof DATA_CLASS_IDS)[number];
 
 export type Confidence = "high" | "medium" | "low";
 

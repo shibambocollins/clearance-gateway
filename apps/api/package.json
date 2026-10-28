@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p ../../packages/core/tsconfig.build.json && tsc -p tsconfig.build.json --noEmit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:seed": "tsc -p ../../packages/core/tsconfig.build.json && tsx scripts/seed-policy.ts"
   },
   "dependencies": {
     "@clearance-gateway/core": "*",
