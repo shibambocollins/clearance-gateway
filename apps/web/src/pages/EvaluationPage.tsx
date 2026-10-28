@@ -64,9 +64,9 @@ function ConfigBars({ data, unit }: { data: Record<string, unknown>[]; unit: str
         <XAxis dataKey="metric" {...axisProps} />
         <YAxis domain={[0, 100]} unit={unit} width={44} {...axisProps} />
         <Tooltip {...tooltipProps} formatter={(v) => (v === null || v === undefined ? "n/a" : `${v}${unit}`)} />
-        <Legend wrapperStyle={{ color: "var(--fg)" }} />
+        <Legend formatter={(value) => <span style={{ color: "var(--ink-60)" }}>{value}</span>} />
         {ORDER.map((id) => (
-          <Bar key={id} dataKey={id} name={CONFIG_NAMES[id]} fill={CONFIG_COLORS[id]} radius={[4, 4, 0, 0]} maxBarSize={36}>
+          <Bar key={id} dataKey={id} name={CONFIG_NAMES[id]} fill={CONFIG_COLORS[id]} radius={[4, 4, 0, 0]} maxBarSize={36} isAnimationActive={false}>
             <LabelList dataKey={id} position="top" fill="var(--fg)" fontSize={11} formatter={(v: unknown) => (v === null || v === undefined ? "n/a" : `${v}`)} />
           </Bar>
         ))}
@@ -139,7 +139,7 @@ export function EvaluationPage() {
             <XAxis type="number" {...axisProps} allowDecimals={false} />
             <YAxis type="category" dataKey="config" width={130} {...axisProps} />
             <Tooltip {...tooltipProps} />
-            <Bar dataKey="leaked" name="Values leaked" radius={[0, 4, 4, 0]} maxBarSize={28}>
+            <Bar dataKey="leaked" name="Values leaked" radius={[0, 4, 4, 0]} maxBarSize={28} isAnimationActive={false}>
               {leakData.map((row) => (
                 <Cell key={row.id} fill={CONFIG_COLORS[row.id]} />
               ))}
