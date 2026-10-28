@@ -12,3 +12,6 @@ coverage/
 # Vercel and Supabase CLI link state
 .vercel/
 supabase/.temp/
+
+# Bench dataset (regenerated from the seed; contains synthetic fake secrets)
+eval/data/
