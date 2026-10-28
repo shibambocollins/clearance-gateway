@@ -41,24 +41,20 @@ adminRouter.post("/api/admin/reset", async (_req, res) => {
       .limit(1)
       .maybeSingle();
     if (error) throw new Error("Could not read policy versions");
-    // Archive the current active version first: the unique index allows one active row.
-    await db.from("policy_versions").update({ status: "archived" }).eq("status", "active");
-    if (seedRow) {
-      await db
-        .from("policy_versions")
-        .update({ status: "active", activated_at: new Date().toISOString() })
-        .eq("id", seedRow.id);
-    } else {
+    let seedId = seedRow?.id as string | undefined;
+    if (!seedId) {
       const { data: latest } = await db.from("policy_versions").select("version").order("version", { ascending: false }).limit(1).maybeSingle();
-      await db.from("policy_versions").insert({
-        version: (latest?.version ?? 0) + 1,
-        raw_text: SEED_POLICY_TEXT,
-        compiled: SEED_POLICY,
-        status: "active",
-        compiled_by: "seed",
-        activated_at: new Date().toISOString(),
-      });
+      const { data: inserted, error: insertError } = await db
+        .from("policy_versions")
+        .insert({ version: (latest?.version ?? 0) + 1, raw_text: SEED_POLICY_TEXT, compiled: SEED_POLICY, status: "draft", compiled_by: "seed" })
+        .select("id")
+        .single();
+      if (insertError) throw new Error("Could not restore the seed policy");
+      seedId = inserted.id;
     }
+    // Atomic: archives the current active version and activates the seed in one transaction.
+    const { error: rpcError } = await db.rpc("activate_policy", { p_id: seedId });
+    if (rpcError) throw new Error("Could not activate the seed policy");
   }
   clearPolicyCache();
   const active = await getActivePolicy();

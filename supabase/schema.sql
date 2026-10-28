@@ -67,3 +67,25 @@ $$;
 -- Only the API (service role) may call it; never anonymous clients through the Data API.
 revoke execute on function increment_usage(date, text) from public, anon, authenticated;
 grant execute on function increment_usage(date, text) to service_role;
+
+-- Atomically make one policy version active and archive the previous one (SPEC §10).
+-- Doing both in one function avoids a window with no active policy.
+create or replace function activate_policy(p_id uuid)
+returns int
+language plpgsql
+set search_path = public
+as $$
+declare
+  v int;
+begin
+  select version into v from policy_versions where id = p_id;
+  if v is null then
+    raise exception 'policy version not found';
+  end if;
+  update policy_versions set status = 'archived' where status = 'active' and id <> p_id;
+  update policy_versions set status = 'active', activated_at = now() where id = p_id;
+  return v;
+end;
+$$;
+revoke execute on function activate_policy(uuid) from public, anon, authenticated;
+grant execute on function activate_policy(uuid) to service_role;

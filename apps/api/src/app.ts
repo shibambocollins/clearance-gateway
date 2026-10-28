@@ -6,6 +6,7 @@ import { adminRouter } from "./routes/admin.js";
 import { chatRouter } from "./routes/chat.js";
 import { checkRouter } from "./routes/check.js";
 import { healthRouter } from "./routes/health.js";
+import { policyRouter } from "./routes/policy.js";
 import { providersRouter } from "./routes/providers.js";
 
 const app = express();
@@ -28,6 +29,7 @@ app.use(healthRouter);
 app.use(checkRouter);
 app.use(chatRouter);
 app.use(providersRouter);
+app.use(policyRouter);
 app.use(adminRouter);
 
 app.use((_req, res) => {

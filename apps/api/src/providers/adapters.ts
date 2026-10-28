@@ -36,55 +36,77 @@ export interface ResolvedAdapter {
 
 const MAX_OUTPUT_TOKENS = 1024;
 
-function geminiAdapter(apiKey: string, model: string): ProviderAdapter {
-  return {
-    async call(prompt, signal) {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-        {
-          method: "POST",
-          signal,
-          headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS, temperature: 0.4 },
-          }),
+export interface GenerateOptions {
+  system: string;
+  user: string;
+  maxTokens: number;
+  temperature: number;
+  /** Ask for a JSON response (Gemini responseMimeType). */
+  json?: boolean;
+  signal: AbortSignal;
+}
+
+export async function geminiGenerate(apiKey: string, model: string, o: GenerateOptions): Promise<string> {
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    {
+      method: "POST",
+      signal: o.signal,
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: o.system }] },
+        contents: [{ role: "user", parts: [{ text: o.user }] }],
+        generationConfig: {
+          maxOutputTokens: o.maxTokens,
+          temperature: o.temperature,
+          ...(o.json ? { responseMimeType: "application/json" } : {}),
         },
-      );
-      if (!res.ok) throw new ProviderError("gemini", "http", res.status);
-      const body = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
-      const text = (body.candidates?.[0]?.content?.parts ?? []).map((p) => p.text ?? "").join("").trim();
-      if (!text) throw new ProviderError("gemini", "empty");
-      return text;
+      }),
     },
-  };
+  );
+  if (!res.ok) throw new ProviderError("gemini", "http", res.status);
+  const body = (await res.json()) as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
+  const text = (body.candidates?.[0]?.content?.parts ?? []).map((p) => p.text ?? "").join("").trim();
+  if (!text) throw new ProviderError("gemini", "empty");
+  return text;
+}
+
+export async function groqChat(apiKey: string, model: string, o: GenerateOptions): Promise<string> {
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    signal: o.signal,
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: o.system },
+        { role: "user", content: o.user },
+      ],
+      max_completion_tokens: o.maxTokens,
+      temperature: o.temperature,
+    }),
+  });
+  if (!res.ok) throw new ProviderError("groq", "http", res.status);
+  const body = (await res.json()) as { choices?: { message?: { content?: string | null } }[] };
+  const text = body.choices?.[0]?.message?.content?.trim();
+  if (!text) throw new ProviderError("groq", "empty");
+  return text;
+}
+
+const chatOptions = (prompt: string, signal: AbortSignal): GenerateOptions => ({
+  system: SYSTEM_PROMPT,
+  user: prompt,
+  maxTokens: MAX_OUTPUT_TOKENS,
+  temperature: 0.4,
+  signal,
+});
+
+function geminiAdapter(apiKey: string, model: string): ProviderAdapter {
+  return { call: (prompt, signal) => geminiGenerate(apiKey, model, chatOptions(prompt, signal)) };
 }
 
 function groqAdapter(apiKey: string, model: string): ProviderAdapter {
-  return {
-    async call(prompt, signal) {
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        signal,
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: prompt },
-          ],
-          max_completion_tokens: MAX_OUTPUT_TOKENS,
-          temperature: 0.4,
-        }),
-      });
-      if (!res.ok) throw new ProviderError("groq", "http", res.status);
-      const body = (await res.json()) as { choices?: { message?: { content?: string | null } }[] };
-      const text = body.choices?.[0]?.message?.content?.trim();
-      if (!text) throw new ProviderError("groq", "empty");
-      return text;
-    },
-  };
+  return { call: (prompt, signal) => groqChat(apiKey, model, chatOptions(prompt, signal)) };
 }
 
 /**

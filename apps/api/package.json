@@ -10,7 +10,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p ../../packages/core/tsconfig.build.json && tsc -p tsconfig.build.json --noEmit",
     "typecheck": "tsc --noEmit",
-    "db:seed": "tsc -p ../../packages/core/tsconfig.build.json && tsx scripts/seed-policy.ts"
+    "db:seed": "tsc -p ../../packages/core/tsconfig.build.json && tsx scripts/seed-policy.ts",
+    "compiler-check": "tsc -p ../../packages/core/tsconfig.build.json && tsx scripts/compiler-check.ts"
   },
   "dependencies": {
     "@clearance-gateway/core": "*",

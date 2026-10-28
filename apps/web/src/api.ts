@@ -126,3 +126,85 @@ export const setOutage = (adminCode: string, providerId: string, down: boolean) 
 
 export const resetDemo = (adminCode: string) =>
   request<{ activePolicyVersion: number | null }>("/api/admin/reset", { method: "POST", body: "{}" }, adminCode);
+
+// ---- Policy lifecycle (admin) ----
+
+export interface PolicyRuleView {
+  id: string;
+  description: string;
+  sourceClause?: string;
+  match: { dataClasses: string[]; roles?: string[]; providerTiers?: number[] };
+  action: Action;
+}
+
+export interface CompiledPolicyView {
+  name: string;
+  dataClasses: { id: string; level: string; defaultAction: Action }[];
+  rules: PolicyRuleView[];
+  terms: { term: string; aliases?: string[]; dataClass: string }[];
+  coaching: boolean;
+  [key: string]: unknown;
+}
+
+export interface PolicyDiffView {
+  cells: { dataClass: string; role: string; tier: number; from: Action; to: Action; direction: "looser" | "stricter" }[];
+  levels: { dataClass: string; from: string; to: string; direction: "looser" | "stricter" }[];
+  terms: { added: string[]; removed: string[] };
+  looserCount: number;
+  stricterCount: number;
+}
+
+export interface PolicyVersion {
+  id: string;
+  version: number;
+  status: "draft" | "active" | "archived";
+  compiled_by: string | null;
+  created_at: string;
+  activated_at: string | null;
+  raw_text: string;
+  compiled: CompiledPolicyView;
+}
+
+export interface CompileResponse {
+  id: string | null;
+  version: number | null;
+  status: "draft";
+  compiledBy: string;
+  attempts: { provider: string; outcome: string; errors?: string[] }[];
+  compiled: CompiledPolicyView;
+  diff: PolicyDiffView;
+  activeVersion: number | null;
+}
+
+export interface SimulateRow {
+  label: string;
+  role: Role;
+  changed: boolean;
+  active: SimSummary;
+  candidate: SimSummary;
+}
+export interface SimSummary {
+  action: Action;
+  provider: string | null;
+  level: string;
+  ruleIds: string[];
+  findings: { dataClass: string; masked: string; action: Action }[];
+}
+
+export const getActivePolicy = () =>
+  request<{ version: number | null; source: string; rawText: string; compiled: CompiledPolicyView }>("/api/policy/active");
+
+export const listVersions = (adminCode: string) => request<{ versions: PolicyVersion[] }>("/api/policy/versions", {}, adminCode);
+
+export const compilePolicy = (adminCode: string, rawText: string) =>
+  request<CompileResponse>("/api/policy/compile", { method: "POST", body: JSON.stringify({ rawText }) }, adminCode);
+
+export const activateVersion = (adminCode: string, id: string) =>
+  request<{ activePolicyVersion: number }>(`/api/policy/${id}/activate`, { method: "POST", body: "{}" }, adminCode);
+
+export const simulate = (adminCode: string, policyId: string, prompts?: string[], role?: Role) =>
+  request<{ activeVersion: number | null; candidateVersion: number | null; rows: SimulateRow[]; changedCount: number }>(
+    "/api/policy/simulate",
+    { method: "POST", body: JSON.stringify({ policyId, prompts, role }) },
+    adminCode,
+  );
