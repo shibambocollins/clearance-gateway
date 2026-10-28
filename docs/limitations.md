@@ -22,3 +22,4 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - **The output guard is pattern-based**, like detection. It removes sensitive data the model introduced, and system-prompt fragments it echoes **verbatim**. A paraphrased leak is not caught.
 - **Token restore depends on the model keeping placeholders.** If a model rewrites `[CLIENT_NAME_1]` as "the client", nothing is restored there. Leftover placeholders are counted and shown, but rewritten ones can't be counted.
 - **Mock replies** (tier 1 in the demo, and everything in offline mode) are deterministic text, not real AI answers.
+- **Models imitate the placeholder format.** In a live test, Gemini answered a prompt containing `[REDACTED:EMAIL]` with a reply addressed to `[CLIENT_NAME_1]`, a placeholder it invented. The guard can't restore a placeholder it never issued; it leaves it and counts it as unrestored.
