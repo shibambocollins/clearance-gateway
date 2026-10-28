@@ -13,11 +13,15 @@ import { statsRouter } from "./routes/stats.js";
 const app = express();
 app.disable("x-powered-by");
 
+const EXTENSION_ORIGIN = /^chrome-extension:\/\/[a-p]{32}$/;
+
 app.use(
   cors({
     origin: (origin, callback) => {
       // Requests without an Origin header (curl, server-to-server) are not subject to CORS.
-      callback(null, !origin || getConfig().corsOrigins.includes(origin));
+      // Chrome extension origins are allowed for Lens: an unpacked extension's id depends on its
+      // install path, and the endpoints it uses (/api/check) are public anyway.
+      callback(null, !origin || getConfig().corsOrigins.includes(origin) || EXTENSION_ORIGIN.test(origin));
     },
   }),
 );

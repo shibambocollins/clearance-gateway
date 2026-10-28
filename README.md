@@ -120,6 +120,19 @@ npm run eval             # regenerate the synthetic dataset and eval/results/*
 | `CORS_ORIGINS` | API | Allowed web origins (comma-separated) |
 | `VITE_API_URL` | Web | API base URL |
 
+## Lens: browser extension (demo)
+
+Lens shows the same checks on **OpenBox Chat (fictional)**, a deliberately generic stand-in for an *unsanctioned* AI site at [/demo-chat](https://clearance-gateway-web.vercel.app/demo-chat). It is not a real product, calls no AI, and sends nothing anywhere.
+
+**Install (Chrome or Edge, "Load unpacked"):**
+1. Download `clearance-gateway-lens.zip` from the [Lens release](https://github.com/shibambocollins/clearance-gateway/releases/tag/lens-v0.1.0) and unzip it, or use the repo's `extension/` folder.
+2. Open `chrome://extensions`, switch on **Developer mode**, click **Load unpacked**, and pick the unzipped folder.
+3. Open https://clearance-gateway-web.vercel.app/demo-chat. Use the **Demo chat (fictional)** link or the URL directly: Lens only runs on that page.
+4. Paste the Assistant's **ID number** sample and press **Send**. The Lens overlay lists the finding, shows what would be sent (`[REDACTED:SA_ID]`), and offers **Send redacted** or **Edit**. With **Send redacted**, OpenBox shows exactly the redacted text it received.
+5. Try the **API key** sample: it is blocked, with no way to send it. Use the toolbar popup to switch Lens off or change the demo role.
+
+Lens sends only `{text, role}` from the page to its background worker, which calls the fixed Clearance Gateway API URL. If the check fails, nothing is sent.
+
 ## Known limitations
 
 The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
