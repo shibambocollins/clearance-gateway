@@ -33,9 +33,9 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 
 ## Lens extension (Phase 7)
 
-- Works only on the fictional OpenBox demo page, in Chromium browsers (Manifest V3). It does not protect real AI sites, other browsers, or the desktop.
-- The page must be opened with a full page load (the content script matches the URL at load time). Navigating there inside the single-page app would skip it, so the nav uses a plain link.
-- It relies on the page's form structure (`data-lens` attributes) and sets a React-controlled textarea's value through the native setter. Real sites change their markup.
-- Paste-time and keystroke checks, file uploads and screenshots are not covered: only submit is intercepted.
-- A user can switch Lens off in the popup or remove the extension. Managed deployment (enterprise policy) is out of scope.
-- No GIF recording yet. The browser automation was unavailable when Lens was built, so the end-to-end check is manual (README steps).
+- Chromium browsers only (Manifest V3), installed with "Load unpacked". It is not in any extension store (D-056). A user can switch it off or remove it; managed force-install is out of scope.
+- **Protect this site** is generic and heuristic: it watches `textarea`, `contenteditable` and `role="textbox"` editors, Enter without Shift, and buttons that look like Send (`type=submit`, "send" in the aria-label, test id or title). Sites with unusual editors or send controls may not be intercepted, and some rich editors may refuse programmatic replacement (Lens then offers Copy). **It has not been tested on real AI sites**, because browser automation was unavailable when it was built.
+- On protected sites, drafts are checked with the API shortly after typing stops (not stored). If the API is down, sends are held back until the user switches Lens off for that site.
+- Paste-time checks, file uploads, screenshots and voice input are not covered.
+- The demo page must be opened with a full page load (the static content script matches the URL at load time).
+- No GIF recording yet. The end-to-end check is manual (README steps).

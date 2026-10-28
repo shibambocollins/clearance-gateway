@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Clearance Gateway Lens (demo)",
-  "version": "0.1.0",
-  "description": "Checks prompts on the fictional OpenBox demo chat page with Clearance Gateway before they leave the browser.",
+  "version": "0.2.0",
+  "description": "Checks text with Clearance Gateway before it reaches an AI tool: quick check, right-click check, and opt-in protection per site.",
   "background": { "service_worker": "background.js" },
-  "permissions": ["storage"],
+  "permissions": ["storage", "contextMenus", "scripting", "activeTab"],
   "host_permissions": ["https://clearance-gateway-api.vercel.app/*", "http://localhost:3001/*"],
+  "optional_host_permissions": ["https://*/*", "http://*/*"],
   "content_scripts": [
     {
       "matches": ["https://clearance-gateway-web.vercel.app/demo-chat*", "http://localhost:5173/demo-chat*"],

@@ -10,6 +10,8 @@ interface Model {
   preview?: string;
 }
 let Lens: {
+  protectableOrigin(url: string): string | null;
+  scriptIdFor(origin: string): string;
   apiBaseFor(url: string): string;
   assistantUrlFor(url: string): string;
   safeRole(role: unknown): string;
@@ -81,6 +83,19 @@ describe("Lens URL and input safety", () => {
     expect(Lens.apiBaseFor("http://localhost:5173/demo-chat")).toBe("http://localhost:3001");
     expect(Lens.apiBaseFor("http://localhost:5173.evil.example.org/demo-chat")).toBe("https://clearance-gateway-api.vercel.app");
     expect(Lens.apiBaseFor("https://evil.example.org/")).toBe("https://clearance-gateway-api.vercel.app");
+  });
+
+  it("can only be enabled on ordinary web pages, never on browser pages or the API itself", () => {
+    expect(Lens.protectableOrigin("https://chat.example.com/c/123?x=1")).toBe("https://chat.example.com");
+    expect(Lens.protectableOrigin("http://localhost:5173/demo-chat")).toBe("http://localhost:5173");
+    expect(Lens.protectableOrigin("chrome://extensions")).toBeNull();
+    expect(Lens.protectableOrigin("file:///C:/notes.txt")).toBeNull();
+    expect(Lens.protectableOrigin("https://clearance-gateway-api.vercel.app/health")).toBeNull();
+    expect(Lens.protectableOrigin("not a url")).toBeNull();
+  });
+
+  it("gives each enabled site a stable, safe script id", () => {
+    expect(Lens.scriptIdFor("https://chat.example.com")).toBe("lens-site-https___chat_example_com");
   });
 
   it("only sends known roles", () => {
