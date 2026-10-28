@@ -2,10 +2,11 @@
   "name": "@clearance-gateway/eval",
   "version": "0.1.0",
   "private": true,
-  "description": "Clearance Gateway Bench: evaluation harness (built in Phase 5).",
+  "description": "Clearance Gateway Bench: evaluation harness.",
   "type": "module",
   "scripts": {
-    "eval": "node -e \"console.log('Bench is not built yet (SPEC Phase 5).')\""
+    "eval": "tsc -p ../packages/core/tsconfig.build.json && tsx run.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@clearance-gateway/core": "*"
