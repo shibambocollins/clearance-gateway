@@ -74,9 +74,10 @@ docs/             SPEC.md, decisions.md, system-map.md, limitations.md, evaluati
 - Leave TODO comments only for items listed in SPEC §20 (open items to verify).
 
 ## Commands
-Fill these in during Phase 0:
-- `npm install`
-- `npm run dev` (api + web locally)
-- `npm test`
-- `npm run eval`
-- `npm run build`
+- `npm install` (from the repo root; installs all workspaces)
+- `npm run dev`: builds core, then runs core `tsc --watch`, the API on :3001 (`tsx watch`) and the web app on :5173. Reads the root `.env`.
+- `npm test`: Vitest across all workspaces (core is aliased to source, so no build needed)
+- `npm run typecheck`: builds core, then runs `tsc --noEmit` in every workspace
+- `npm run eval`: Bench (placeholder until Phase 5)
+- `npm run build`: core → API (typecheck) → web (Vite)
+- Deploy: Vercel projects `clearance-gateway-api` (root `apps/api`) and `clearance-gateway-web` (root `apps/web`), Git-connected, so pushes to `main` deploy to production.
