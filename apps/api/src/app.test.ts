@@ -40,6 +40,12 @@ describe("GET /health", () => {
 
     const denied = await fetch(`${baseUrl}/health`, { headers: { Origin: "https://evil.example.org" } });
     expect(denied.headers.get("access-control-allow-origin")).toBeNull();
+
+    const lens = "chrome-extension://abcdefghijklmnopabcdefghijklmnop";
+    const extension = await fetch(`${baseUrl}/health`, { headers: { Origin: lens } });
+    expect(extension.headers.get("access-control-allow-origin")).toBe(lens);
+    const fake = await fetch(`${baseUrl}/health`, { headers: { Origin: "chrome-extension://evil.example.org" } });
+    expect(fake.headers.get("access-control-allow-origin")).toBeNull();
   });
 });
 

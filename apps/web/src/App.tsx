@@ -4,6 +4,7 @@ import { getHealth, type Health } from "./api";
 import { AdminCodeProvider } from "./adminCode";
 import { AboutPage } from "./pages/AboutPage";
 import { AssistantPage } from "./pages/AssistantPage";
+import { DemoChatPage } from "./pages/DemoChatPage";
 
 // Charts and admin screens load only when opened, keeping the assistant fast.
 const EvaluationPage = lazy(() => import("./pages/EvaluationPage").then((m) => ({ default: m.EvaluationPage })));
@@ -39,6 +40,8 @@ export function App() {
           <NavLink to="/dashboard">Dashboard</NavLink>
           <NavLink to="/evaluation">Evaluation</NavLink>
           <NavLink to="/about">How it works</NavLink>
+          {/* A full page load, so the Lens content script (matched on this URL) is injected. */}
+          <a href="/demo-chat">Demo chat (fictional)</a>
           <span className="nav-group" aria-label="Admin">
             <NavLink to="/admin/policy">Policy</NavLink>
             <NavLink to="/admin/simulate">Simulator</NavLink>
@@ -68,6 +71,7 @@ export function App() {
           <Route path="/dashboard" element={later(<DashboardPage />)} />
           <Route path="/evaluation" element={later(<EvaluationPage />)} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/demo-chat" element={<DemoChatPage />} />
           <Route path="/admin/policy" element={later(<AdminPolicyPage />)} />
           <Route path="/admin/simulate" element={later(<AdminSimulatePage />)} />
           <Route path="/admin/providers" element={later(<ProvidersPage />)} />

@@ -527,3 +527,60 @@ code {
   color: var(--muted);
   font-size: 0.92rem;
 }
+
+/* OpenBox Chat (fictional): deliberately plain, not modelled on any real AI product. */
+.openbox-frame {
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  margin-top: 16px;
+}
+
+.openbox-title {
+  font-weight: 700;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+.openbox-logo {
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.openbox-log {
+  min-height: 200px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.openbox-msg {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.openbox-who {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.openbox-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.openbox-you .openbox-text {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.9rem;
+}
+
+.openbox-form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 2px solid var(--border);
+}
+
+.openbox-form textarea {
+  flex: 1;
+}

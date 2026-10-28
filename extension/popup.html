@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clearance Gateway Lens</title>
+    <style>
+      body { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; width: 260px; margin: 12px; color: #1b1b1b; }
+      h1 { font-size: 15px; color: #0f6b4f; margin: 0 0 10px; }
+      label { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+      select { flex: 1; }
+      p { color: #5a5a5a; font-size: 12px; margin: 8px 0 0; }
+      @media (prefers-color-scheme: dark) { body { background: #1d1d1d; color: #ececec; } h1 { color: #4fc49b; } p { color: #a6a6a6; } }
+    </style>
+  </head>
+  <body>
+    <h1>Clearance Gateway Lens</h1>
+    <label><input type="checkbox" id="enabled" /> Check messages before sending</label>
+    <label>
+      Demo role
+      <select id="role">
+        <option value="general">General staff</option>
+        <option value="hr">HR</option>
+        <option value="finance">Finance</option>
+        <option value="engineering">Engineering</option>
+      </select>
+    </label>
+    <p>Works only on the fictional OpenBox demo chat page. Your text goes to the Clearance Gateway API for checking and is never stored.</p>
+    <script src="popup.js"></script>
+  </body>
+</html>

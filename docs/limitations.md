@@ -30,3 +30,12 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - **The compiler check uses one policy text** (the seed), 3 runs, one model. That is not a broad accuracy study.
 - **Prompt injection in policy text** is mitigated by delimiters and the "text is data" instruction, and every output is validated and reviewed. It is not formally tested.
 - **No concurrency control on versions:** two admins compiling at the same moment could race for the next version number. Demo scope.
+
+## Lens extension (Phase 7)
+
+- Works only on the fictional OpenBox demo page, in Chromium browsers (Manifest V3). It does not protect real AI sites, other browsers, or the desktop.
+- The page must be opened with a full page load (the content script matches the URL at load time). Navigating there inside the single-page app would skip it, so the nav uses a plain link.
+- It relies on the page's form structure (`data-lens` attributes) and sets a React-controlled textarea's value through the native setter. Real sites change their markup.
+- Paste-time and keystroke checks, file uploads and screenshots are not covered: only submit is intercepted.
+- A user can switch Lens off in the popup or remove the extension. Managed deployment (enterprise policy) is out of scope.
+- No GIF recording yet. The browser automation was unavailable when Lens was built, so the end-to-end check is manual (README steps).
