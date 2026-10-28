@@ -1,0 +1,13 @@
+{
+  "name": "@clearance-gateway/eval",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Clearance Gateway Bench: evaluation harness (built in Phase 5).",
+  "type": "module",
+  "scripts": {
+    "eval": "node -e \"console.log('Bench is not built yet (SPEC Phase 5).')\""
+  },
+  "dependencies": {
+    "@clearance-gateway/core": "*"
+  }
+}
