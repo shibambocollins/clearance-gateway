@@ -4,27 +4,68 @@
     <meta charset="UTF-8" />
     <title>Clearance Gateway Lens</title>
     <style>
-      body { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; width: 260px; margin: 12px; color: #1b1b1b; }
+      body { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; width: 340px; margin: 12px; color: #1b1b1b; background: #fff; }
       h1 { font-size: 15px; color: #0f6b4f; margin: 0 0 10px; }
-      label { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+      h2 { font-size: 13px; margin: 14px 0 6px; text-transform: uppercase; letter-spacing: .03em; color: #5a5a5a; }
+      label { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
       select { flex: 1; }
-      p { color: #5a5a5a; font-size: 12px; margin: 8px 0 0; }
-      @media (prefers-color-scheme: dark) { body { background: #1d1d1d; color: #ececec; } h1 { color: #4fc49b; } p { color: #a6a6a6; } }
+      textarea { width: 100%; box-sizing: border-box; font: inherit; min-height: 80px; resize: vertical; }
+      button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid #c9c9c2; background: #fff; color: #1b1b1b; cursor: pointer; }
+      button.primary { background: #0f6b4f; border-color: #0f6b4f; color: #fff; font-weight: 600; }
+      button:disabled { opacity: .55; cursor: not-allowed; }
+      .muted { color: #5a5a5a; font-size: 12px; }
+      .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f3ef; border-radius: 6px; padding: 8px; font: 12px/1.4 ui-monospace, Consolas, monospace; max-height: 180px; overflow: auto; }
+      ul { padding-left: 18px; margin: 6px 0; }
+      .result { border-top: 4px solid #0f6b4f; padding-top: 8px; margin-top: 10px; }
+      .result.modify { border-top-color: #8a4b00; }
+      .result.blocked, .result.error { border-top-color: #9c1c1c; }
+      .hidden { display: none; }
+      a { color: #0f6b4f; }
+      @media (prefers-color-scheme: dark) {
+        body { background: #1d1d1d; color: #ececec; } h1, a { color: #4fc49b; } h2, .muted { color: #a6a6a6; }
+        pre { background: #2a2a2a; } button { background: #1d1d1d; color: #ececec; border-color: #444; }
+        textarea, select { background: #2a2a2a; color: #ececec; }
+      }
     </style>
   </head>
   <body>
     <h1>Clearance Gateway Lens</h1>
-    <label><input type="checkbox" id="enabled" /> Check messages before sending</label>
-    <label>
-      Demo role
-      <select id="role">
-        <option value="general">General staff</option>
-        <option value="hr">HR</option>
-        <option value="finance">Finance</option>
-        <option value="engineering">Engineering</option>
-      </select>
-    </label>
-    <p>Works only on the fictional OpenBox demo chat page. Your text goes to the Clearance Gateway API for checking and is never stored.</p>
+
+    <section id="settings">
+      <label><input type="checkbox" id="enabled" /> Check messages before sending</label>
+      <label>
+        Demo role
+        <select id="role">
+          <option value="general">General staff</option>
+          <option value="hr">HR</option>
+          <option value="finance">Finance</option>
+          <option value="engineering">Engineering</option>
+        </select>
+      </label>
+
+      <h2>This site</h2>
+      <div id="site">
+        <div id="site-name" class="muted">–</div>
+        <div class="row">
+          <button id="protect" type="button" class="hidden">Protect this site</button>
+          <button id="unprotect" type="button" class="hidden">Stop protecting this site</button>
+        </div>
+        <p id="site-note" class="muted"></p>
+      </div>
+
+      <h2>Quick check</h2>
+      <textarea id="quick-text" placeholder="Paste text to check before using it in any AI tool…" maxlength="12000"></textarea>
+      <div class="row"><button id="quick-check" type="button" class="primary">Check</button></div>
+    </section>
+
+    <div id="result" class="result hidden" aria-live="polite"></div>
+
+    <p class="muted">
+      Tip: select text on any page, right-click, and choose <strong>Check with Clearance Gateway</strong>.
+      Text is checked by the Clearance Gateway API and never stored. <a id="assistant" target="_blank" rel="noreferrer">Open the approved assistant</a>
+    </p>
+    <script src="lens-model.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

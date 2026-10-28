@@ -65,11 +65,32 @@
     return {
       kind: "modify",
       title: "Sensitive data found",
-      lines: ["OpenBox is not an approved AI provider. Send the version below without the sensitive values, or edit your message."],
+      lines: ["This site is not an approved AI provider. Use the version below without the sensitive values, or edit your message."],
       findings,
       preview: check.transformed,
     };
   }
 
-  root.LensModel = { apiBaseFor, assistantUrlFor, safeRole, overlayModel, LABELS };
+  /**
+   * The origin Lens may be enabled on for this URL, or null. Only ordinary web pages qualify:
+   * not browser pages, not the Clearance Gateway API itself.
+   */
+  function protectableOrigin(url) {
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch {
+      return null;
+    }
+    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return null;
+    if (parsed.origin === PROD_API || parsed.origin === LOCAL_API) return null;
+    return parsed.origin;
+  }
+
+  /** Stable id for a dynamically registered content script (one per enabled site). */
+  function scriptIdFor(origin) {
+    return "lens-site-" + origin.replace(/[^a-z0-9]/gi, "_");
+  }
+
+  root.LensModel = { PROD_API, apiBaseFor, assistantUrlFor, safeRole, overlayModel, protectableOrigin, scriptIdFor, LABELS };
 })(globalThis);
