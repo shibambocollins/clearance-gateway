@@ -33,6 +33,7 @@ export {
   type Tier,
 } from "./policy/schema.js";
 export { SEED_POLICY, SEED_POLICY_TEXT } from "./policy/seed.js";
+export { policyDiff, type CellChange, type LevelChange, type PolicyDiff } from "./policy/diff.js";
 export { decideAction, decideFindings, requestLevel, strictestAction, type FindingDecision } from "./decide.js";
 export {
   ROUTE_RULE_ID,
