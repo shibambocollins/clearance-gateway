@@ -28,9 +28,31 @@ describe("za_id", () => {
     expect(finding!.masked).not.toContain(ID);
   });
 
+  describe("near-valid IDs (D-058)", () => {
+    it("valid date and citizenship digit but a wrong check digit: LOW-confidence finding", () => {
+      // A mistyped or deliberately altered ID still reveals a birth date, gender and citizenship.
+      const altered = breakChecksum(ID);
+      const findings = run(zaIdDetector, `Customer ID ${altered} called`);
+      expect(findings).toHaveLength(1);
+      expect(findings[0]).toMatchObject({ dataClass: "SA_ID", confidence: "low" });
+      expect(findings[0]!.masked).not.toContain(altered);
+    });
+
+    it("evading by changing the last digit no longer works", () => {
+      for (let d = 0; d <= 9; d++) {
+        const variant = ID.slice(0, 12) + d;
+        expect(run(zaIdDetector, variant).length, variant).toBe(1);
+      }
+    });
+  });
+
   describe("traps (must NOT fire)", () => {
-    it("13-digit order number that fails the checksum", () => {
-      expect(run(zaIdDetector, `Order ${breakChecksum(ID)} shipped`)).toEqual([]);
+    it("13-digit number with a wrong check digit AND an impossible date", () => {
+      expect(run(zaIdDetector, `Order ${breakChecksum(saId("801301"))} shipped`)).toEqual([]);
+    });
+
+    it("13-digit number with a wrong check digit AND citizenship digit 3", () => {
+      expect(run(zaIdDetector, breakChecksum(saId("800101", "5009", "3")))).toEqual([]);
     });
 
     it.each([

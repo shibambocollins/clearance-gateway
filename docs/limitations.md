@@ -7,7 +7,7 @@ Technical limitations, written as they are found. SPEC §19 has the starting lis
 Measured rates come from the Bench (`eval/results/`), not from this list. Clearance Gateway never claims 100% detection.
 
 - **Pattern- and dictionary-based.** There is no contextual understanding: a strategy document, salary discussion or unreleased financials contain no pattern to match.
-- **SA ID numbers** need a valid date, citizenship digit 0/1/2 and a valid Luhn check digit. A mistyped ID (wrong check digit) is not detected.
+- **SA ID numbers** with a valid date, citizenship digit 0/1/2 and a valid Luhn check digit are found with high confidence. With a wrong check digit (mistyped or altered) they are still found, at low confidence, and redacted (D-058), so the occasional 13-digit order number that happens to have an ID-like structure is redacted too.
 - **Card numbers** cover Visa, Mastercard and Amex prefixes only. Other brands (e.g. Discover, Diners, UnionPay) are not detected.
 - **Bank account numbers** are only reported within about 40 characters of a banking context word (account, acc, acct, a/c, branch code, FNB, Absa, Standard Bank, Nedbank, Capitec). An account number pasted without context is not detected; this is a deliberate trade-off against false positives on order numbers.
 - **Phone numbers** cover South African formats only (`0` or `+27`, then 9 digits). `0027…`, `27…` without `+`, `+27 (0)82…` and international numbers are not detected.

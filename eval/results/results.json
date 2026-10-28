@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-28T20:38:02.118Z",
+  "generatedAt": "2026-10-28T23:29:35.353Z",
   "seed": 20261029,
   "engineVersion": "0.3.0",
   "dataset": {
@@ -621,11 +621,11 @@
         "perClass": {
           "SA_ID": {
             "tp": 18,
-            "fp": 0,
+            "fp": 5,
             "fn": 0,
-            "precision": 1,
+            "precision": 0.783,
             "recall": 1,
-            "f1": 1
+            "f1": 0.878
           },
           "CARD_NUMBER": {
             "tp": 12,
@@ -686,11 +686,11 @@
         },
         "overall": {
           "tp": 75,
-          "fp": 0,
+          "fp": 5,
           "fn": 0,
-          "precision": 1,
+          "precision": 0.938,
           "recall": 1,
-          "f1": 1
+          "f1": 0.968
         },
         "evasion": {
           "caught": 27,
@@ -712,9 +712,9 @@
           "rate": 1
         },
         "trapFalsePositives": {
-          "casesWithFinding": 0,
+          "casesWithFinding": 5,
           "cases": 25,
-          "rate": 0
+          "rate": 0.2
         },
         "cleanFalsePositives": {
           "casesWithFinding": 0,
@@ -943,8 +943,8 @@
     }
   },
   "latency": {
-    "p50Ms": 0.129,
-    "p95Ms": 0.348,
+    "p50Ms": 0.047,
+    "p95Ms": 0.09,
     "calls": 975
   },
   "notes": [

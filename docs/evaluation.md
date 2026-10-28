@@ -70,7 +70,7 @@
 
 Every miss is an evasion type listed in [limitations.md](limitations.md).
 
-**Dev split** (112 prompts): 100% precision, 100% recall, 0 unsafe sends. All the known-unhandled evasion templates landed in the test split.
+**Dev split** (112 prompts): recall 100% and 0 unsafe sends. Precision is 93.8% and trap false alarms are 20%. Since D-058, the dev-only order-number trap (13 digits with an ID-like date and citizenship digit but a broken check digit) is deliberately redacted as a possible ID. All the known-unhandled evasion templates landed in the test split.
 
 ## Threats to validity
 
