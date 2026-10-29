@@ -46,3 +46,9 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - Provider API keys were reused from other local projects for testing and should be rotated after the challenge.
 
 - **The header's "Policy updated" date is the last activation time.** Using Reset (which re-activates the seed policy) also moves it, so it means "last activation", not "last change to the rules".
+
+## Prototype scope and resources
+
+- **Built with limited resources.** One person built the prototype in about a day and a night, with AI help. Every service is on a free tier: Vercel (hosting), Supabase (database), and the free tiers of the Gemini and Groq APIs. Free tiers cap scale, rate limits and uptime guarantees, and the Supabase free tier pauses after a week of inactivity.
+- **AI agents are not covered by the gateway.** Coding agents (such as Claude Code) and other agentic tools are designed for in the documents (route the agent's base URL through the gateway, managed settings, hooks, an egress allowlist) but not built, because of limited time and resources.
+- **The same constraints explain** the Chromium-only extension that is installed with "Load unpacked" instead of a store listing, the shared demo admin code instead of single sign-on, and the synthetic-only evaluation.

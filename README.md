@@ -182,9 +182,10 @@ npm run eval             # regenerate the synthetic dataset and eval/results/*
 ## Known limitations
 
 The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
+- **This is a prototype, built with limited resources.** One person built it in about a day and a night, on free services: Vercel, Supabase and the free tiers of the Gemini and Groq APIs. That limits scale, uptime guarantees and how much could be built.
 - **Detection** is pattern- and dictionary-based. It has no contextual understanding, and some evasions are missed (measured above).
 - **Routing** can only be as good as detection.
-- **Out of scope:** coding agents (the design is documented, not built), SaaS copilots and TLS interception.
+- **Out of scope:** AI agents such as coding agents (the design is documented, not built, because of limited time and resources), SaaS copilots and TLS interception.
 - **Shortcuts:** admin access is a single shared code, not SSO. Provider health is tracked per serverless instance. Provider tiers are demo configuration, not claims about any vendor's data handling.
 - **Evidence:** all data is synthetic, and there has been no pilot with real employees.
 - **Compiler:** an LLM. It can misread ambiguous wording (seen: stricter, never looser), which is why every compile is a reviewed draft.

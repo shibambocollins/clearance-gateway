@@ -80,7 +80,7 @@ I tested it with Bench, my evaluation harness, on **307 synthetic prompts**. The
 
 ## 4. Feasibility
 
-- **Cost:** The prototype runs on free tiers (Vercel, Supabase, Gemini and Groq), and I built it as one person in about a day and a night with AI help. A small company could run something similar cheaply.
+- **Cost:** The prototype runs on free tiers (Vercel, Supabase, Gemini and Groq), and I built it as one person in about a day and a night with AI help. A small company could run something similar cheaply. Because this is a prototype with limited resources, the free tiers also cap scale and uptime guarantees.
 - **Speed:** A check adds less than a millisecond, so staff won't notice it.
 - **What a company would need:**
   - An approved AI provider account
@@ -90,7 +90,7 @@ I tested it with Bench, my evaluation harness, on **307 synthetic prompts**. The
 - **Constraints:**
   - It doesn't cover personal phones.
   - The extension only works in Chromium browsers.
-  - Coding agents (like Claude Code) and AI built into other apps (like Copilot in Teams) are designed for in the docs but not built.
+  - Coding agents (like Claude Code) and AI built into other apps (like Copilot in Teams) are designed for in the docs but not built, because of limited time and resources.
 
 ---
 
