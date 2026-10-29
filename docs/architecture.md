@@ -12,6 +12,7 @@
 | **API** | `apps/api` | Express on Vercel (`src/app.ts`). Providers, health, rate limit, audit, admin endpoints. |
 | **Web** | `apps/web` | Assistant, dashboard, evaluation, admin (policy, simulator, providers), about. Talks only to the API. |
 | **Bench** | `eval/` | Synthetic dataset generator, baselines, metrics, results. |
+| **Lens** | `extension/` | Chrome extension (Manifest V3). Checks text through `/api/check` before it leaves the browser: on the OpenBox demo page, on sites the user chooses to protect, via a quick check in the popup, and via right-click on selected text. |
 | **Database** | Supabase Postgres | `policy_versions`, `audit_events`, `usage_counters`, `simulated_outages`. RLS on, no policies; functions `increment_usage`, `activate_policy` (service role only). |
 
 ## Request path (`POST /api/chat`)
@@ -70,4 +71,3 @@ There is deliberately no text column.
 - Audit hash chain.
 - Canary injection suite.
 - Coding-agent enforcement: designed, see limitations.
-- Browser extension (Lens): stretch, Phase 7.
