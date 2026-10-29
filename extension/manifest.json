@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Clearance Gateway Lens (demo)",
+  "name": "Clearance Gateway Lens",
   "version": "0.3.0",
   "description": "Checks text with Clearance Gateway before it reaches an AI tool: quick check, right-click check, and opt-in protection per site.",
   "background": {

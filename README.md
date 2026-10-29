@@ -190,5 +190,6 @@ The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
 | [`docs/architecture.md`](docs/architecture.md) | Technical architecture | Claude Code, reviewed by Collins |
 | [`docs/evaluation.md`](docs/evaluation.md) | Evaluation method and results | Claude Code, interpreted by Collins |
 | [`docs/limitations.md`](docs/limitations.md) | Known limitations | Claude Code and Collins |
+| [`docs/security.md`](docs/security.md) | Security review and threat model | Claude Code, reviewed by Collins |
 | [`docs/decisions.md`](docs/decisions.md) | Decision log | Both |
 | [`docs/SPEC.md`](docs/SPEC.md) | Build specification | Collins |

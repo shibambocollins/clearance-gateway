@@ -116,9 +116,9 @@ export const SEED_POLICY: CompiledPolicy = {
   ],
   // Demo configuration only: tiers are not claims about any vendor's real data handling.
   providers: [
-    { id: "mock-enterprise", label: "Approved enterprise AI (demo)", tier: 1, maxLevel: "confidential", enabled: true },
-    { id: "gemini", label: "Google Gemini (demo)", tier: 2, maxLevel: "internal", enabled: true },
-    { id: "groq", label: "Groq (demo)", tier: 3, maxLevel: "public", enabled: true },
+    { id: "mock-enterprise", label: "Approved enterprise AI", tier: 1, maxLevel: "confidential", enabled: true },
+    { id: "gemini", label: "Google Gemini", tier: 2, maxLevel: "internal", enabled: true },
+    { id: "groq", label: "Groq", tier: 3, maxLevel: "public", enabled: true },
   ],
   routing: { order: ["mock-enterprise", "gemini", "groq"], onNoEligibleProvider: "block" },
   coaching: true,

@@ -69,13 +69,13 @@ describe("explanations (SPEC §9 wording)", () => {
   it("redaction", () => {
     expect(run("id-number").explanation).toEqual([
       "Removed 1 South African ID number. Rule R-PII-01: ID numbers may not be sent to AI providers.",
-      "Sent to Approved enterprise AI (demo) (tier 1).",
+      "Sent to Approved enterprise AI (tier 1).",
     ]);
   });
 
   it("pseudonymisation", () => {
     expect(run("client-name").explanation[0]).toBe(
-      "Pseudonymised 1 client name and 1 project codename before sending to Approved enterprise AI (demo) (rule R-TERM-01). The originals will be restored in the reply.",
+      "Pseudonymised 1 client name and 1 project codename before sending to Approved enterprise AI (rule R-TERM-01). The originals will be restored in the reply.",
     );
   });
 
@@ -93,13 +93,13 @@ describe("explanations (SPEC §9 wording)", () => {
 
   it("HR exception is explained, not silent", () => {
     expect(run("hr-case").explanation).toContain(
-      "Allowed 1 email address for HR staff with Approved enterprise AI (demo) (rule R-CONTACT-03).",
+      "Allowed 1 email address for HR staff with Approved enterprise AI (rule R-CONTACT-03).",
     );
   });
 
   it("failover is visible to the user", () => {
     expect(run("clean", true).explanation.at(-1)).toBe(
-      "Sent to Google Gemini (demo) (tier 2); skipped Approved enterprise AI (demo) (unavailable).",
+      "Sent to Google Gemini (tier 2); skipped Approved enterprise AI (unavailable).",
     );
   });
 });
