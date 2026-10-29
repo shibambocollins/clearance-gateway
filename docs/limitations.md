@@ -1,6 +1,6 @@
 # Known limitations
 
-Technical limitations, written as they are found. SPEC §19 has the starting list. The README summarises this file at freeze.
+Technical limitations, written as they are found. The README summarises this file.
 
 ## Detection (Engine, Phase 1)
 
@@ -44,3 +44,5 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 
 - The admin code is public for judges. A **policy floor** stops anyone activating a policy looser than the baseline; tightening, simulated outages (10-minute expiry) and compiles (daily budget) remain open to anyone with the code.
 - Provider API keys were reused from other local projects for testing and should be rotated after the challenge.
+
+- **The header's "Policy updated" date is the last activation time.** Using Reset (which re-activates the seed policy) also moves it, so it means "last activation", not "last change to the rules".

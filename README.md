@@ -51,7 +51,7 @@ More screenshots (reply and "Why", dashboard, policy decision diff) are in [`doc
 4. Click **Send** again. *"Blocked: no approved provider is available for confidential data right now (fail closed, rule R-ROUTE-01)."* The data is not sent to a lower-tier provider.
    - Optional: click the **Clean** sample and send it. It fails over to a real model (Google Gemini), because public data is cleared for tier 2.
 5. Open **Evaluation** for the measured results against two baselines.
-6. Click **Reset** (outages also switch off by themselves after 10 minutes).
+6. Click **Reset (seed policy, no outages)** (outages also switch off by themselves after 10 minutes).
 
 More to try:
 - **API key** sample: blocked, with coaching.
