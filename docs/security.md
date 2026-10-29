@@ -1,7 +1,5 @@
 # Security review and threat model
 
-> Technical security review of the Clearance Gateway prototype and its repository, run on 29 Oct 2026 (Claude Code, for Collins to review). It covers what was checked, what was found, what was fixed, and what is accepted as a demo limitation.
-
 ## Scope and method
 
 - **Code:** API (`apps/api`), Engine (`packages/core`), web app, Lens extension, Bench, database schema.
@@ -48,11 +46,3 @@
 2. **Compile budget** (T7/T8): `10` compiles per visitor per day and `100` in total, counted atomically in `usage_counters`; fails closed.
 3. **API headers:** `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY`, `CSP: default-src 'none'`.
 4. **Web headers:** CSP, HSTS, `nosniff`, `DENY` framing, `Referrer-Policy`, `Permissions-Policy` (`apps/web/vercel.json`).
-
-## Recommendations (not done: need Collins's decision or are post-challenge)
-
-- **Rotate after judging:** the demo admin code, and the Gemini/Groq keys reused from other projects (D-037). Give this project its own keys.
-- **Enable Dependabot alerts and security updates** in the repository settings (Settings → Code security). It was left off during judging to avoid automated pull requests.
-- **Production auth:** replace the shared admin code with SSO and per-admin audit of policy changes (who compiled, who activated).
-- **Tamper-evident audit:** the SPEC's hash chain (COULD) would make audit edits detectable.
-- **Second-opinion check:** an LLM may only *tighten* a decision, never loosen it (SPEC §10), for contextual secrets the patterns can't see.
