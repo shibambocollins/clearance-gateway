@@ -2,24 +2,34 @@
 
 **Data only goes where it's cleared to go.**
 
-A policy-enforcement gateway between employees and AI providers. An admin writes the company AI policy in plain English **once**. An LLM drafts it into rules that the admin reviews and activates. From then on every prompt is enforced **deterministically**:
+[![CI](https://github.com/shibambocollins/clearance-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/shibambocollins/clearance-gateway/actions/workflows/ci.yml)
 
-1. detect sensitive data
-2. decide per role
-3. redact, pseudonymise or block
-4. route only to providers cleared for that data, failing closed
-5. check the reply
-6. explain to the employee what happened and why
+A policy-enforcement gateway between employees and AI providers. An admin writes the company AI policy in plain English once. An LLM drafts it into rules, and a person reviews and activates them. After that, every prompt is checked by fixed rules: **no LLM decides what gets through.** Sensitive data is redacted or pseudonymised, and each prompt is routed only to a provider cleared to receive it. If none is, the request is blocked and explained (fail closed).
 
-Built for the **Credify System Thinking Challenge 2026**, challenge area 01 (AI & Cybersecurity): *How can companies use AI without creating new security risks?*
+Detection, false alarms, evasion, policy correctness and failover safety are measured on a synthetic test set, not assumed. The results are below. Built for the Credify System Thinking Challenge 2026, area 01 (AI & Cybersecurity): *How can companies use AI without creating new security risks?*
 
-## Live demo
+## Try it
 
 | | |
 |---|---|
 | App | https://clearance-gateway-web.vercel.app |
 | API health | https://clearance-gateway-api.vercel.app/health |
-| Demo admin code | `credify-8d724294` (demo mechanism only, see limitations) |
+| Browser extension (Lens) | [Latest release](https://github.com/shibambocollins/clearance-gateway/releases/latest) |
+| Admin code | `credify-8d724294` (a shared code for judges, see limitations) |
+
+## Why there is also a browser extension
+
+A gateway only protects the route people choose to use. Employees do not paste into one approved tool: they paste into whatever AI site is open in the next tab. If the safe route is slower, or the habit is already formed, the policy is bypassed without anyone deciding to break it.
+
+**Lens** closes that gap. It brings the same checks to the browser, so they apply where the data actually leaves, with no change in habit:
+
+- **Quick check from the toolbar:** paste text, see what would be removed, copy the redacted version. Works on any page.
+- **Right-click on selected text, anywhere:** choose *Check with Clearance Gateway*.
+- **Protect this site:** switch it on for one site and Lens checks what you send there, stepping in only when something sensitive is found.
+
+It is opt-in and private by design. Lens reads nothing unless you protect a site or select text yourself, and sends only the text to be checked to the same API and the same policy as the web app. If a check fails, the message is held back.
+
+The demo target is **OpenBox**, a fictional unapproved AI site (it calls no AI and imitates no real product). Install steps are [below](#lens-browser-extension).
 
 ## 2-minute judge path
 
@@ -40,7 +50,7 @@ More to try:
 - **Policy** page: compile the policy text and review the decision diff.
 - **Dashboard**: what the gateway did, built from audit metadata.
 
-## Measured results (synthetic data)
+## Measured results
 
 From [`eval/results/results.md`](eval/results/results.md): 195 synthetic test prompts, template-disjoint from the dev set, seed `20261029`. **Detection is not 100%.**
 
@@ -52,46 +62,54 @@ From [`eval/results/results.md`](eval/results/results.md): 195 synthetic test pr
 | Look-alike "trap" prompts flagged | 0% | 64.4% | 0% |
 | Sensitive values reaching a provider unprotected (of 126) | 126 | 48 | 9 |
 
-**Failover**, with tier 1 down: a naive "try the next provider" chain sends 87/87 confidential requests to a lower tier. The Clearance Gateway router makes **0 routing errors** and blocks 81. **6** still went through because their data wasn't detected (ID numbers written as words, keys split across lines). Routing can only be as good as detection.
-
-**Policy matrix:** 96/96 role × data class × tier decisions correct.
-
-**Compiler check** (seed text, 3 runs): 3/3 valid, **0 decisions looser** than the hand-written policy, 35 stricter. See [`docs/evaluation.md`](docs/evaluation.md).
+- **Failover, with tier 1 down:** a naive "try the next provider" chain sends 87 of 87 confidential requests to a lower tier. The Clearance Gateway router makes **0 routing errors** and blocks 81. Six still went through because their data was never detected (ID numbers written as words, keys split across lines). Routing can only be as good as detection.
+- **Policy matrix:** 96 of 96 role × data class × tier decisions correct.
+- **Compiler check** (seed text, 3 runs): 3 of 3 valid, **0 decisions looser** than the hand-written policy, 35 stricter. See [`docs/evaluation.md`](docs/evaluation.md).
 
 ## How it works
 
-```
-Employee / app ──► POST /api/chat
-   canonicalise ─► detect ─► decide (per role, per provider tier) ─► redact / pseudonymise / block
-   ─► route: first provider in policy order that is enabled + healthy + cleared for the data
-             (none eligible → BLOCK, fail closed)
-   ─► provider ─► output guard (new sensitive data, leaked instructions) ─► restore pseudonyms
-   ─► explanation to the employee + audit event (metadata only)
+![Architecture](docs/diagrams/architecture.png)
 
-Admin ─► policy text ─► LLM compiler (draft, schema-validated) ─► decision diff + simulator ─► activate
-```
+![What happens to one prompt](docs/diagrams/prompt-flow.png)
 
-![Architecture: company side, the Clearance Gateway API and database, and three provider tiers](docs/diagrams/architecture.png)
+**Every prompt** (no LLM in this path):
+1. **Canonicalise:** undo evasion tricks (spaced digits, zero-width characters, fullwidth numbers).
+2. **Detect** SA ID numbers, cards, bank accounts, emails, phone numbers, credentials and client or project names.
+3. **Decide:** the strictest rule for each finding, by role and provider tier.
+4. **Redact or pseudonymise**, or **block**.
+5. **Route** to the first provider that is enabled, healthy and cleared for the data. None eligible: block (fail closed).
+6. **Check the reply:** remove new sensitive data and leaked instructions, then restore pseudonyms.
+7. **Explain** to the employee what happened and why. The audit record holds metadata only.
 
-![What happens to one prompt: detect, decide, transform, route, fail closed, check the reply](docs/diagrams/prompt-flow.png)
+**Every policy change:**
+1. The admin writes the policy in plain English.
+2. An LLM compiler drafts rules, validated against a strict schema.
+3. The admin reviews the decision diff (looser changes flagged) and tries it in the simulator.
+4. A policy floor refuses anything looser than the baseline.
+5. The admin activates it, and it is live within seconds.
 
-More diagrams, including the policy lifecycle, and links to open each one in draw.io are in [`docs/diagrams/`](docs/diagrams/).
+The parts are the **Compiler** (policy text to rules), the **Engine** (`packages/core`, pure TypeScript with no I/O), the **Router** (clearance-based, fail closed) and the **Bench** (the evaluation harness). Details: [`docs/architecture.md`](docs/architecture.md).
 
-The components are:
-- **Compiler:** policy text → rules
-- **Engine:** canonicalise, detect, decide, transform (`packages/core`, pure TypeScript, no I/O)
-- **Router:** clearance-based routing, fail closed
-- **Bench:** the evaluation harness
+## Features
 
-Details: [`docs/architecture.md`](docs/architecture.md).
+- Plain-English policy compiled into reviewable, versioned rules
+- Detection of South African ID numbers (date and check digit), cards, bank accounts, emails, phone numbers, credentials and named clients or projects
+- Role-aware actions: allow, redact, pseudonymise or block
+- Routing by provider trust tier, with fail-closed behaviour and re-routing under the same policy when a provider fails
+- Output guard and pseudonym restore
+- Plain-English explanations and coaching for every blocked or changed prompt
+- Audit log with metadata only, and a dashboard built from it
+- Simulator and decision diff for every policy change, plus a policy floor
+- Evaluation harness (Bench) with a template-disjoint test split and two baselines
+- Browser extension (Lens)
 
 ## Technology
 
-Node 22, TypeScript (strict) and npm workspaces:
-- **API:** Express 5, deployed on Vercel
-- **Web:** React 19, Vite 8, React Router, Recharts, deployed on Vercel
+- **Runtime:** Node 22 and TypeScript (strict), npm workspaces
+- **API:** Express 5 on Vercel
+- **Web:** React 19, Vite 8, React Router, Recharts, on Vercel
 - **Database:** Supabase Postgres, with RLS on and no policies, so only the API's service role can read or write
-- **Validation and tests:** zod, Vitest
+- **Validation and tests:** zod and Vitest (381 tests)
 - **Providers:** Gemini and Groq through plain `fetch`, plus a deterministic mock
 - **CI:** GitHub Actions running typecheck, tests, build and a gitleaks secrets scan
 
@@ -99,103 +117,89 @@ Node 22, TypeScript (strict) and npm workspaces:
 
 ```bash
 npm install
-cp .env.example .env     # see the variables below; everything is optional for a first run
+cp .env.example .env     # everything is optional for a first run
 npm run dev              # API http://localhost:3001 · web http://localhost:5173
 npm test                 # Vitest across all workspaces
 npm run eval             # regenerate the synthetic dataset and eval/results/*
 ```
 
-- **Offline mode:** set `OFFLINE_MODE=true`. Every provider is answered by a deterministic mock, labelled in the UI, and routing, outages and fail-closed behaviour work as normal.
+- **Offline mode:** set `OFFLINE_MODE=true`. Every provider is answered by a deterministic mock, labelled in the UI. Routing, outages and fail-closed behaviour work as normal.
 - **Without Supabase:** the API runs with the seed policy in memory and says so in `/health`.
-- **Database setup:**
-  - Apply [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL editor.
-  - Run `npm run db:seed -w @clearance-gateway/api` to store the seed policy as version 1.
-  - Optionally run `npm run compiler-check -w @clearance-gateway/api` (needs API keys) to re-run the compiler check.
+- **Database setup:** apply [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL editor, then run `npm run db:seed -w @clearance-gateway/api` to store the seed policy as version 1.
+- **Compiler check:** `npm run compiler-check -w @clearance-gateway/api` re-runs it (needs API keys).
 
 ## Environment variables
 
 | Variable | Used by | Purpose |
 |---|---|---|
 | `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | API only | Policy versions, audit events, usage counters, simulated outages. Never in the web app. |
-| `GEMINI_API_KEY`, `GEMINI_MODEL` | API | Tier-2 demo provider and the policy compiler (default model `gemini-3.5-flash-lite`) |
-| `GROQ_API_KEY`, `GROQ_MODEL` | API | Tier-3 demo provider and compiler fallback (default model `openai/gpt-oss-20b`) |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | API | Tier-2 provider and the policy compiler (default model `gemini-3.5-flash-lite`) |
+| `GROQ_API_KEY`, `GROQ_MODEL` | API | Tier-3 provider and compiler fallback (default model `openai/gpt-oss-20b`) |
 | `OFFLINE_MODE` | API | `true` = mock provider only |
 | `DEMO_ADMIN_CODE` | API | Required for admin endpoints (`x-admin-code` header) |
 | `RATE_LIMIT_PER_CLIENT_PER_DAY`, `GLOBAL_DAILY_CAP` | API | Over the limit, replies come from the mock provider |
 | `CLIENT_HASH_SALT` | API | Salt for hashing client IPs (raw IPs are never stored) |
 | `CORS_ORIGINS` | API | Allowed web origins (comma-separated) |
+| `POLICY_FLOOR` | API | `off` disables the policy floor (on by default) |
 | `VITE_API_URL` | Web | API base URL |
 
-## Lens: browser extension
-
-Lens brings Clearance Gateway's checks to the browser, before text reaches an AI tool.
+## Lens browser extension
 
 **Install (Chrome or Edge, "Load unpacked"):**
-1. Download `clearance-gateway-lens.zip` from the [Lens release](https://github.com/shibambocollins/clearance-gateway/releases/tag/lens-v0.3.0) and unzip it, or use the repo's `extension/` folder.
+1. Download `clearance-gateway-lens.zip` from the [latest release](https://github.com/shibambocollins/clearance-gateway/releases/latest) and unzip it, or use the repo's `extension/` folder.
 2. Open `chrome://extensions`, switch on **Developer mode**, click **Load unpacked**, and pick the unzipped folder. Pin the Lens icon.
 
 **Four ways to use it:**
-1. **Demo page:** open https://clearance-gateway-web.vercel.app/demo-chat (**OpenBox Chat (fictional)**, a stand-in for an unsanctioned AI site that calls no AI and sends nothing anywhere).
+1. **Demo page:** open [/demo-chat](https://clearance-gateway-web.vercel.app/demo-chat) (**OpenBox**, fictional).
    - Paste the Assistant's **ID number** sample and press **Send**.
    - The overlay lists the finding and the redacted text. Click **Send redacted**, and OpenBox shows exactly what it received.
    - The **API key** sample is blocked, with no way to send it.
 2. **Quick check (any page):** click the Lens icon, paste text into **Quick check**, then **Check**. You get the findings and **Copy redacted text**.
 3. **Right-click (any page):** select text, right-click, and choose **Check with Clearance Gateway**.
-4. **Protect a site you choose:**
-   - On any website, click the Lens icon, then **Protect this site**. Chrome asks permission for that site only.
-   - Lens then checks what you type there shortly after you stop typing. When you press Enter or Send, it steps in only if something sensitive is found, offering **Replace with redacted text**, **Copy redacted text** or **Edit**.
-   - **Stop protecting this site** removes the permission.
+4. **Protect a site you choose:** click the Lens icon, then **Protect this site**. Chrome asks permission for that site only. Lens then checks what you type there shortly after you stop, and steps in on Enter or Send only if something sensitive is found, offering **Replace with redacted text**, **Copy redacted text** or **Edit**. **Stop protecting** removes the permission.
 
 **Privacy and safety:**
 - Lens never reads pages unless you protect that site or select text yourself.
 - Pages and the popup send only `{text, role}` to Lens's background worker, which calls the fixed Clearance Gateway API URL. Nothing is stored.
 - If a check fails, the message is held back (fail closed).
 
-**Not in the Chrome Web Store:** publishing needs a developer account and a review that takes days. That is the path to production, alongside enterprise force-install.
+**Not in the Chrome Web Store:** publishing needs a developer account and a review that takes days. Store listing and enterprise force-install are the path to production.
 
 ## Known limitations
 
 The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
-- **Detection:** pattern- and dictionary-based. It has no contextual understanding, and some evasions are missed (measured above).
-- **Routing:** can only be as good as detection.
-- **Out of scope:**
-  - Coding agents are documented as a design, not built.
-  - SaaS copilots and TLS interception are not covered.
-- **Demo shortcuts:**
-  - Admin auth is a single demo code, not SSO.
-  - Provider health is tracked per serverless instance.
-  - Provider tiers are demo configuration, not claims about any vendor's data handling.
-- **Evidence:**
-  - All data is synthetic.
-  - There has been no pilot with real employees.
+- **Detection** is pattern- and dictionary-based. It has no contextual understanding, and some evasions are missed (measured above).
+- **Routing** can only be as good as detection.
+- **Out of scope:** coding agents (the design is documented, not built), SaaS copilots and TLS interception.
+- **Shortcuts:** admin access is a single shared code, not SSO. Provider health is tracked per serverless instance. Provider tiers are demo configuration, not claims about any vendor's data handling.
+- **Evidence:** all data is synthetic, and there has been no pilot with real employees.
 - **Compiler:** an LLM. It can misread ambiguous wording (seen: stricter, never looser), which is why every compile is a reviewed draft.
+- **Lens** works in Chromium browsers only, and its support for other sites is heuristic. It was only exercised end to end on the OpenBox page.
 
 ## Security and privacy
 
-- No prompt or reply text is logged or stored. Audit events hold metadata only (`apps/api/src/audit.ts`).
-- Finding previews are masked (`8001••••••087`).
+- No prompt or reply text is logged or stored. Audit events hold metadata only (`apps/api/src/audit.ts`), and finding previews are masked (`8001••••••087`).
 - Token maps for pseudonyms live only for the duration of a request.
 - The Supabase service-role key exists only in the API's environment. RLS is enabled with no policies, and database functions are executable by the service role only.
-- 16 KB body limit, CORS allowlist, per-visitor and global daily limits. Errors never echo input.
-- **Secrets scan:** gitleaks runs on every pull request and push to `main` (`.github/workflows/ci.yml`). Result: passing. _Final pre-submission scan result to be recorded at freeze._
+- A policy floor stops anyone activating a policy looser than the baseline, even with the public admin code. Compiles have a daily budget.
+- 16 KB body limit, CORS allowlist, per-visitor and global daily limits. Errors never echo input. Security headers on both apps.
+- gitleaks runs on every pull request and push to `main`. The review and threat model are in [`docs/security.md`](docs/security.md).
 
 ## AI-use disclosure
 
-- **Claude Code** (Anthropic) wrote most of the code, tests and technical documentation (architecture, evaluation method, limitations), working phase by phase from a specification Collins wrote and under his direction.
-- Every non-trivial technical choice is logged in [`docs/decisions.md`](docs/decisions.md) with who proposed it.
-- At runtime, Google Gemini and Groq serve as demo AI providers and as the policy compiler.
+- **Claude Code** (Anthropic) wrote most of the code, tests and technical documentation, working phase by phase from a specification and under Collins's direction.
+- At runtime, Google Gemini and Groq serve as providers and as the policy compiler.
 
 **What Collins designed and decided:** _to be written by Collins._
 
 ## Documentation
 
-| Document | Contents | Author |
-|---|---|---|
-| [`docs/system-map.md`](docs/system-map.md) | Problem, stakeholders, root causes, system relationships | Collins |
-| [`docs/intervention.md`](docs/intervention.md) | Options considered, why this one, feasibility, risks, impact | Collins |
-| [`docs/architecture.md`](docs/architecture.md) | Technical architecture | Claude Code, reviewed by Collins |
-| [`docs/evaluation.md`](docs/evaluation.md) | Evaluation method and results | Claude Code, interpreted by Collins |
-| [`docs/limitations.md`](docs/limitations.md) | Known limitations | Claude Code and Collins |
-| [`docs/security.md`](docs/security.md) | Security review and threat model | Claude Code, reviewed by Collins |
-| [`docs/decisions.md`](docs/decisions.md) | Decision log | Both |
-| [`docs/SPEC.md`](docs/SPEC.md) | Build specification | Collins |
+- [`docs/system-map.md`](docs/system-map.md): problem, stakeholders, root causes, system relationships
+- [`docs/intervention.md`](docs/intervention.md): options considered, why this one, feasibility, risks, impact
+- [`docs/architecture.md`](docs/architecture.md): how the parts fit together
+- [`docs/evaluation.md`](docs/evaluation.md): method and results
+- [`docs/security.md`](docs/security.md): security review and threat model
+- [`docs/limitations.md`](docs/limitations.md): known limitations
+- [`docs/decisions.md`](docs/decisions.md): the decision log
+- [`docs/diagrams/`](docs/diagrams/): architecture, flow and lifecycle diagrams, editable in draw.io
+- [`docs/SPEC.md`](docs/SPEC.md): the specification

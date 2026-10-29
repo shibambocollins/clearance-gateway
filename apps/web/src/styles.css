@@ -215,15 +215,6 @@ strong {
   color: var(--ink);
 }
 
-.brand-name::after {
-  content: "";
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  margin-left: 4px;
-  background: var(--sage);
-  border-radius: 50%;
-}
 
 .tagline {
   font-size: 12.5px;
