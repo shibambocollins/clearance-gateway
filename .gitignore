@@ -15,3 +15,6 @@ supabase/.temp/
 
 # Bench dataset (regenerated from the seed; contains synthetic fake secrets)
 eval/data/
+
+# Local assistant instructions (not part of the submission)
+CLAUDE.md

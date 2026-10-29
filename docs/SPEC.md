@@ -1,7 +1,6 @@
-# Clearance Gateway: Build Specification
+# Clearance Gateway: Specification
 
-Owner: Collins Shibambo · Challenge: Credify System Thinking Challenge 2026, area 01 (AI & Cybersecurity)
-Deadline: portal closes Thu 29 Oct 2026, 09:00 SAST · Feature freeze: 04:00
+Challenge: Credify System Thinking Challenge 2026, area 01 (AI & Cybersecurity)
 Tagline: "Data only goes where it's cleared to go."
 
 Components:
@@ -17,7 +16,7 @@ Always write the full name "Clearance Gateway". Unrelated AI-agent approval tool
 
 ## 1. Context and goals
 
-**Problem (summary; the full analysis is written by Collins in `docs/system-map.md`):**
+**Problem (summary; the full analysis is in `docs/system-map.md`):**
 Employees use AI tools widely, but security guidance and enforcement lag behind. Company AI policies often exist only on paper, and nothing enforces them at the moment someone pastes data into an AI tool. When the sanctioned route is slower or less useful than a personal AI account, people bypass it.
 
 **What the prototype must demonstrate:**
@@ -27,7 +26,7 @@ Employees use AI tools widely, but security guidance and enforcement lag behind.
 4. Effectiveness is **measured**: detection, false positives, evasion, policy correctness and failover safety.
 5. The safe path stays useful. Tokenisation keeps prompts meaningful, and coaching explains instead of only blocking.
 
-**Related work (for `docs/intervention.md` and the deck; Collins writes the comparison):**
+**Related work (compared in `docs/intervention.md`):**
 - **Kaspersky (Oct 2025, South African data):**
   - Recommends a specialised AI proxy that removes sensitive data from queries on the fly and uses role-based access control.
   - Recommends tiered AI access calibrated to each department's data sensitivity.
@@ -45,7 +44,7 @@ Employees use AI tools widely, but security guidance and enforcement lag behind.
   - published evaluation numbers
   - South African context (POPIA, SA ID numbers)
 
-**Non-goals for tonight:** real SSO, coding-agent enforcement (documented as designed, not built), SaaS copilots, TLS interception, multi-tenant admin, production hardening.
+**Non-goals:** real SSO, coding-agent enforcement (documented as designed, not built), SaaS copilots, TLS interception, multi-tenant admin, production hardening.
 
 ---
 
@@ -90,7 +89,6 @@ Admin pastes policy text → POST /api/policy/compile (LLM via fallback chain, s
 | Eval | `tsx` to run TypeScript scripts; seeded RNG implemented locally (no faker needed) |
 | Extension | Plain TypeScript or JS, Manifest V3, no framework |
 
-Ask before adding anything else.
 
 ---
 
@@ -99,7 +97,6 @@ Ask before adding anything else.
 ```
 /
   package.json            (workspaces: packages/*, apps/*, eval)
-  CLAUDE.md
   .env.example
   packages/core/src/
     canonicalise.ts  detectors/  policy/schema.ts  policy/seed.ts
@@ -118,12 +115,9 @@ Ask before adding anything else.
 ```
 
 **Deployment:**
-- Two Vercel projects from this one repo: root directory `apps/api` and root directory `apps/web`.
-- **Deploy a skeleton in Phase 0** to prove that `apps/api` can import `packages/core` on Vercel.
-  - If the workspace import fails on Vercel, fall back to a prebuild step that copies or bundles `packages/core` into `apps/api`.
-  - Record which approach worked in `docs/decisions.md`.
-- Locally, `server.ts` calls `app.listen`. On Vercel, the default export is used. (Verify how to detect the Vercel environment; see §20.)
-- The web app reads `VITE_API_URL`. The API sets a CORS allowlist: the web origin, `http://localhost:5173` and the extension origin.
+- Two Vercel projects from this one repository: root directory `apps/api` and root directory `apps/web`.
+- Locally, `server.ts` calls `app.listen`. On Vercel, the default export of `app.ts` is used.
+- The web app reads `VITE_API_URL`. The API sets a CORS allowlist: the web origin, `http://localhost:5173` and extension origins.
 
 **Environment variables (`.env.example`):**
 ```
@@ -170,12 +164,12 @@ interface Finding {
 
 | Detector | Data class | Method | Confidence |
 |---|---|---|---|
-| `za_id` | `SA_ID` | 13 digits; first 6 form a valid YYMMDD date; checksum digit valid (Luhn; verify, see §20); citizenship digit 0 or 1 | high if all pass, else no finding |
+| `za_id` | `SA_ID` | 13 digits; first 6 form a valid YYMMDD date; checksum digit valid (Luhn; verify,; citizenship digit 0 or 1 | high if all pass, else no finding |
 | `card` | `CARD_NUMBER` | 13–19 digits, Luhn-valid, known prefixes (Visa 4; Mastercard 51–55 and 2221–2720; Amex 34/37) | high |
 | `bank_account` | `BANK_ACCOUNT` | 7–11 digit run **only** within ~40 characters of context words (account, acc, acct, "account number", branch code, FNB, Absa, Standard Bank, Nedbank, Capitec) | medium |
 | `email` | `EMAIL` | standard pattern | high |
 | `phone_za` | `PHONE` | `+27` or `0` followed by 9 digits, separators allowed; mobile prefixes 6/7/8 | high, else medium |
-| `cred_known` | `CREDENTIAL` | known secret formats: AWS access key IDs (`AKIA` + 16), GitHub tokens (`ghp_`, `gho_`, `ghs_`, `github_pat_`), Google API keys (`AIza…`), Stripe (`sk_live_`, `sk_test_`), Slack (`xoxb-`, `xoxp-`), PEM private key headers, JWTs (`eyJ…` three base64url segments). Verify each against current docs or gitleaks rules (§20) | high |
+| `cred_known` | `CREDENTIAL` | known secret formats: AWS access key IDs (`AKIA` + 16), GitHub tokens (`ghp_`, `gho_`, `ghs_`, `github_pat_`), Google API keys (`AIza…`), Stripe (`sk_live_`, `sk_test_`), Slack (`xoxb-`, `xoxp-`), PEM private key headers, JWTs (`eyJ…` three base64url segments). Verify each against current docs or gitleaks rules  | high |
 | `cred_assign` | `CREDENTIAL` | `password\|passwd\|pwd\|secret\|token\|api[_-]?key` followed by `:` or `=` and a value | high |
 | `entropy` | `CREDENTIAL` | tokens ≥ 20 chars with mixed character classes and Shannon entropy above a threshold **tuned on the dev split only**; boosted near credential keywords | medium/low |
 | `terms` | `CLIENT_NAME`, `PROJECT_CODENAME` | dictionary from the active policy's `terms` (case-insensitive, word boundaries, aliases). Optional fuzzy match: edit distance ≤ 1 for terms ≥ 6 characters | high exact, low fuzzy |
@@ -238,7 +232,7 @@ Demo providers, labelled in the UI as demo configuration:
 | gemini | | 2 | internal |
 | groq | | 3 | public |
 
-Adjust the mapping to whichever keys work tonight. **Never claim a tier reflects a real vendor's data handling.**
+The mapping can change with whichever providers are configured. **Never claim a tier reflects a real vendor's data handling.**
 
 ---
 
@@ -387,10 +381,10 @@ Show a banner when `offlineMode` is true. On first load, call `/health` and show
 
 ---
 
-## 13. Lens: browser extension (stretch, cut-off 03:30)
+## 13. Lens: browser extension
 
 - Manifest V3. The content script matches **only** the demo chat page (production URL plus localhost).
-- On submit (capture phase), call `preventDefault` and send `{text, role}` to the background script. The background script calls `/api/check`; the API URL is in `host_permissions`. Verify cross-origin behaviour in Chrome's docs (§20).
+- On submit (capture phase), call `preventDefault` and send `{text, role}` to the background script. The background script calls `/api/check`; the API URL is in `host_permissions`. Verify cross-origin behaviour in Chrome's docs .
 - Show an overlay with findings, the redacted preview and buttons: **Send redacted** · **Edit** · (if policy allows) **Send anyway**.
 - The popup has an on/off toggle and the demo role.
 - Ship a zip in a GitHub release, "Load unpacked" steps in the README, and a short GIF.
@@ -420,7 +414,7 @@ Show a banner when `offlineMode` is true. On first load, call `/health` and show
 - A. No gateway (baseline: everything sent)
 - B. Regex-only (patterns without validators, canonicalisation or context gating)
 - C. Full deterministic pipeline
-- D. C + second opinion (only if built)
+- D. C + second opinion (not built)
 
 ### 14.3 Metrics (report on `test`; show `dev` separately)
 - Per-class precision, recall and F1, where a predicted span counts if it overlaps a labelled span with the same class
@@ -457,54 +451,7 @@ Show a banner when `offlineMode` is true. On first load, call `/health` and show
 
 ---
 
-## 16. Build plan (times SAST, Wed 28 → Thu 29 Oct)
-
-| Phase | Time box | Scope | Acceptance checks |
-|---|---|---|---|
-| 0 Scaffold + deploy | 19:30–20:15 | Workspaces, TS config, Vitest, `/health`, web hello page, Supabase schema applied, **both Vercel projects live** | Live API `/health` returns JSON; live web page loads and shows health; `packages/core` import works on Vercel |
-| 1 Core detection | 20:15–21:45 | Canonicaliser + all detectors except fuzzy and entropy; unit tests | `npm test` green; every detector has a trap test; evasion tests pass for numeric classes |
-| 2 Policy engine | 21:45–22:45 | Schema, seed policy, decide, transform, route, explain; `/api/check` | Policy-matrix unit tests pass; `/api/check` returns masked findings and correct actions for the six sample prompts |
-| 3 Full chat path | 22:45–23:45 | Provider adapters (mock, Gemini, Groq), health, fail-closed routing, output guard, tokenise + restore, audit insert, rate limit; basic employee assistant page | End-to-end on live URL in both offline and real mode; outage toggle makes a confidential prompt block (fail closed); no prompt text in `audit_events` |
-| 5 Evaluation | 23:45–01:30 | Generator, runner, configs A–C, results JSON/MD, Evaluation page | `npm run eval` produces results; test split is template-disjoint; failover safety shows naive > 0 vs ours = 0 |
-| 4 Policy compiler | 01:30–02:30 | Compile endpoint, versions, activate, admin policy page, simulator | Seed text compiles to valid JSON; no rule looser than golden in the compiler check; activation changes live decisions |
-| 6 Dashboard + polish | 02:30–03:15 | Stats, dashboard, providers page, about page, offline banner | Judges can follow the 2-minute path in the README end to end |
-| 7 Extension (stretch) | 03:15–04:00 | §13 | Overlay appears on the demo page; "Send redacted" sends the transformed text |
-| Freeze | 04:00 | Docs, README, deck, recording | Submit by 08:30 |
-
-The evaluation phase (5) is deliberately placed before the compiler (4): evidence is worth more to the judges than another feature.
-
----
-
-## 17. Priorities and cut list
-
-- **MUST:** Phases 0, 1, 2, 3, 5; README; limitations; decisions log.
-- **SHOULD:** Phase 4 (compiler, versions, simulator), dashboard, providers page.
-- **COULD:** extension, second opinion, entropy detector, fuzzy terms, hash chain, canary suite.
-
-If behind schedule, cut from the bottom of COULD upwards. Never cut tests or the evaluation run.
-
----
-
-## 18. Documentation deliverables
-
-**README.md** must contain:
-- Live links, the demo admin code, and a **2-minute judge path**: open the assistant → click "ID number" sample → see the redaction explanation → toggle the tier-1 outage → see the fail-closed block → open the Evaluation page.
-- What it does, technologies, setup and run steps (local and offline mode), environment variables.
-- Known limitations (required by the Credify guide).
-- AI-use disclosure: tools used (including Claude Code) and what Collins personally designed and decided, with a link to `docs/decisions.md`.
-- The secrets scan result.
-
-**`docs/`** (Collins writes the analysis; Claude Code scaffolds headings and the technical sections):
-- `system-map.md`: problem and context, stakeholders, root causes, system relationships (Collins)
-- `intervention.md`: options considered, why this one, feasibility, risks, assumptions, expected impact and how to measure it in a pilot (Collins)
-- `architecture.md`: technical (Claude Code drafts, Collins reviews)
-- `evaluation.md`: method and results (Claude Code drafts from results, Collins interprets)
-- `limitations.md`
-- `decisions.md`
-
----
-
-## 19. Known limitations (starter list; extend as you go)
+## 16. Known limitations
 
 - Coding agents (for example Claude Code) are not covered. The layered design (base URL to gateway, managed settings, PreToolUse hooks, egress allowlist) is documented, not built.
 - SaaS copilots and TLS-intercepting proxies are not covered.
@@ -517,11 +464,3 @@ If behind schedule, cut from the bottom of COULD upwards. Never cut tests or the
 
 ---
 
-## 20. Open items to verify (do not guess; check docs, then record in decisions.md)
-
-1. Vercel: npm-workspace import from `packages/core` when the project root is `apps/api`; how to detect running on Vercel; current Node versions.
-2. Gemini and Groq: current REST endpoints, auth headers, model names, free-tier rate limits.
-3. SA ID number: confirm the structure (YYMMDD, sequence, citizenship digit, checksum algorithm) against an authoritative source before relying on it.
-4. Credential prefixes in §6: confirm against provider docs or the gitleaks default rules.
-5. Chrome MV3: cross-origin fetch from content scripts versus the background service worker with `host_permissions`.
-6. Supabase: `gen_random_uuid()` availability (pgcrypto) on the project.

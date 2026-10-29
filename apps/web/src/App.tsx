@@ -103,10 +103,6 @@ export function App() {
           <Route path="*" element={<p>Page not found.</p>} />
         </Routes>
       </main>
-      <footer className="site-footer">
-        Synthetic data only. Provider tiers are demo configuration, not claims about any vendor's data handling. Built for
-        the Credify System Thinking Challenge 2026.
-      </footer>
     </AdminCodeProvider>
   );
 }
