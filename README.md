@@ -203,6 +203,7 @@ The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
 
 - **Most of the code was written by Claude Code** (Anthropic), including the tests and the technical documentation.
 - **Most architectural decisions were taken by Collins.**
+- **Claude** (Anthropic, in chat) was used as a research and writing assistant for the analysis documents (`docs/system-map.md`, `docs/intervention.md`) and the evaluation interpretation.
 - At runtime, Google Gemini and Groq serve as providers and as the policy compiler.
 
 ## Documentation

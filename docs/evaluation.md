@@ -81,4 +81,8 @@ Every miss is an evasion type listed in [limitations.md](limitations.md).
 
 ## Interpretation (Collins)
 
-_To be written by Collins._
+The gateway sends far fewer sensitive values to a provider unprotected than a regex-only filter: 9 of 126, against 48 for regex and 126 with no gateway. It also catches most evasion tricks (45 of 54, against 3) and raises no false alarms on look-alike numbers (0%, against 64.4%). When the approved provider is down, a naive fallback sends 87 of 87 confidential requests to a lower tier. The router makes 0 routing errors and blocks 81.
+
+The misses matter as much as the wins. 9 values still got through, for example ID numbers written as words, and 6 requests reached a lower tier because their data was never detected. Routing is only as good as detection.
+
+These numbers come from synthetic data built from patterns close to what the detectors look for. Real-world accuracy will be lower. I have not tested with real employees. I read the result as evidence that compile-then-enforce with fixed rules beats a simple filter, not as proof that the gateway is safe.
