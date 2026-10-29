@@ -4,6 +4,9 @@
 
 [![CI](https://github.com/shibambocollins/clearance-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/shibambocollins/clearance-gateway/actions/workflows/ci.yml)
 
+**Repository:** https://github.com/shibambocollins/clearance-gateway  
+**Live prototype:** https://shibambocollins.github.io/clearance-gateway/
+
 A policy-enforcement gateway between employees and AI providers. An admin writes the company AI policy in plain English once. An LLM drafts it into rules, and a person reviews and activates them. After that, every prompt is checked by fixed rules: **no LLM decides what gets through.** Sensitive data is redacted or pseudonymised, and each prompt is routed only to a provider cleared to receive it. If none is, the request is blocked and explained (fail closed).
 
 Detection, false alarms, evasion, policy correctness and failover safety are measured on a synthetic test set, not assumed. The results are below. Built for the Credify System Thinking Challenge 2026, area 01 (AI & Cybersecurity): *How can companies use AI without creating new security risks?*
@@ -12,8 +15,9 @@ Detection, false alarms, evasion, policy correctness and failover safety are mea
 
 | | |
 |---|---|
-| App | https://clearance-gateway-web.vercel.app |
-| API health | https://clearance-gateway-api.vercel.app/health |
+| App (GitHub Pages) | https://shibambocollins.github.io/clearance-gateway/ |
+| App (Vercel, same build) | https://clearance-gateway-web.vercel.app |
+| API (Vercel) | https://clearance-gateway-api.vercel.app/health |
 | Browser extension (Lens) | [Latest release](https://github.com/shibambocollins/clearance-gateway/releases/latest) |
 | Admin code | `credify-8d724294` (a shared code for judges, see limitations) |
 

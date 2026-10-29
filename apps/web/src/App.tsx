@@ -67,7 +67,7 @@ export function App() {
           <NavLink to="/evaluation">Evaluation</NavLink>
           <NavLink to="/about">How it works</NavLink>
           {/* A full page load, so the Lens content script (matched on this URL) is injected. */}
-          <a href="/demo-chat">OpenBox (fictional)</a>
+          <a href={`${import.meta.env.BASE_URL}demo-chat`}>OpenBox (fictional)</a>
           <span className="nav-group" aria-label="Admin">
             <NavLink to="/admin/policy">Policy</NavLink>
             <NavLink to="/admin/simulate">Simulator</NavLink>

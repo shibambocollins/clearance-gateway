@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+# Publishes the web app as a static site at https://shibambocollins.github.io/clearance-gateway/.
+# The app is the same build as the Vercel one; it calls the Clearance Gateway API on Vercel.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - "packages/core/**"
+      - "eval/results/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build -w @clearance-gateway/web
+        env:
+          VITE_BASE: /clearance-gateway/
+          VITE_API_URL: https://clearance-gateway-api.vercel.app
+
+      # Pages serves no server-side rewrites: a copy of index.html as 404.html lets deep links
+      # such as /clearance-gateway/evaluation load the single-page app.
+      - run: cp apps/web/dist/index.html apps/web/dist/404.html
+
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: apps/web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
