@@ -71,6 +71,12 @@ Employee / app ──► POST /api/chat
 Admin ─► policy text ─► LLM compiler (draft, schema-validated) ─► decision diff + simulator ─► activate
 ```
 
+![Architecture: company side, the Clearance Gateway API and database, and three provider tiers](docs/diagrams/architecture.png)
+
+![What happens to one prompt: detect, decide, transform, route, fail closed, check the reply](docs/diagrams/prompt-flow.png)
+
+More diagrams, including the policy lifecycle, are in [`docs/diagrams/`](docs/diagrams/).
+
 The components are:
 - **Compiler:** policy text → rules
 - **Engine:** canonicalise, detect, decide, transform (`packages/core`, pure TypeScript, no I/O)
