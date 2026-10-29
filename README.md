@@ -201,10 +201,9 @@ The full list is in [`docs/limitations.md`](docs/limitations.md). In short:
 
 ## AI-use disclosure
 
-- **Claude Code** (Anthropic) wrote most of the code, tests and technical documentation, working phase by phase from a specification and under Collins's direction.
+- **Most of the code was written by Claude Code** (Anthropic), including the tests and the technical documentation.
+- **Most architectural decisions were taken by Collins.**
 - At runtime, Google Gemini and Groq serve as providers and as the policy compiler.
-
-**What Collins designed and decided:** _to be written by Collins._
 
 ## Documentation
 
