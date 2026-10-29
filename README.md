@@ -75,7 +75,7 @@ Admin ─► policy text ─► LLM compiler (draft, schema-validated) ─► de
 
 ![What happens to one prompt: detect, decide, transform, route, fail closed, check the reply](docs/diagrams/prompt-flow.png)
 
-More diagrams, including the policy lifecycle, are in [`docs/diagrams/`](docs/diagrams/).
+More diagrams, including the policy lifecycle, and links to open each one in draw.io are in [`docs/diagrams/`](docs/diagrams/).
 
 The components are:
 - **Compiler:** policy text → rules

@@ -1,12 +1,12 @@
 # Diagrams
 
-Hand-drawn-style diagrams (draw.io "sketch" style, Architects Daughter font, FinMe colours). Open any `.drawio` file at https://app.diagrams.net (File → Open from → Device) or in the draw.io desktop app to edit it. The PNGs are exports at 2× scale.
+Plain, standard diagrams made with [draw.io](https://www.drawio.com). Click **Edit** to open one in the draw.io editor straight from this repository, or **View** for a read-only page. The `.drawio` files in this folder can also be opened with File → Open from → Device. The PNGs are 2× exports.
 
-| File | Shows |
-|---|---|
-| `architecture.drawio` / `.png` | The parts of the live prototype and where data is allowed to go |
-| `prompt-flow.drawio` / `.png` | What happens to one prompt, from Send to answer (no LLM in the path) |
-| `policy-lifecycle.drawio` / `.png` | How a plain-English policy becomes live rules, with the human review and the policy floor |
-| *(Collins)* system map | The problem's causal loops: Collins's own analysis, to be added |
+| Diagram | What it shows | Open | PNG |
+|---|---|---|---|
+| `architecture` | System design: the parts of the live prototype and where data is allowed to go | [Edit](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Farchitecture.drawio) · [View](https://viewer.diagrams.net/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Farchitecture.drawio) | [architecture.png](architecture.png) |
+| `prompt-flow` | Flowchart: what happens to one prompt, from Send to answer (no LLM in the path) | [Edit](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Fprompt-flow.drawio) · [View](https://viewer.diagrams.net/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Fprompt-flow.drawio) | [prompt-flow.png](prompt-flow.png) |
+| `policy-lifecycle` | Flowchart: how a plain-English policy becomes live rules, with human review and the policy floor | [Edit](https://app.diagrams.net/#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Fpolicy-lifecycle.drawio) · [View](https://viewer.diagrams.net/?url=https%3A%2F%2Fraw.githubusercontent.com%2Fshibambocollins%2Fclearance-gateway%2Fmain%2Fdocs%2Fdiagrams%2Fpolicy-lifecycle.drawio) | [policy-lifecycle.png](policy-lifecycle.png) |
+| *(Collins)* system map | The problem's causal loops: Collins's own analysis, to be added | | |
 
-Service logos come from the [SVG Logos](https://github.com/gilbarbara/logos) collection (CC0) via [Iconify](https://iconify.design). Trademarks belong to their owners. They identify the services the prototype uses and imply no endorsement. The approved enterprise provider is a mock and OpenBox is fictional, so neither has a logo. Provider tiers are demo configuration, not claims about any vendor's data handling.
+Service logos come from the [SVG Logos](https://github.com/gilbarbara/logos) collection (CC0). Generic icons come from [Flat Color Icons](https://github.com/icons8/flat-color-icons) (MIT). Both are via [Iconify](https://iconify.design). Trademarks belong to their owners; they identify the services the prototype uses and imply no endorsement. The approved enterprise provider is a mock and OpenBox is fictional, so neither has a vendor logo. Provider tiers are demo configuration, not claims about any vendor's data handling.
