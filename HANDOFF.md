@@ -1,6 +1,6 @@
 # HANDOFF: verified state for the final documentation and pitch deck
 
-Written by Claude Code on 29 Oct 2026, about 04:50 SAST, on branch `handoff-summary` (not merged into `main`). Facts only: each claim has a source (file, command or URL), and anything not verified is marked **UNVERIFIED** with the reason. No app code, tests, policy or eval logic was changed while writing this. All sample data is synthetic. No secret values appear here.
+Written by Claude Code on 29 Oct 2026, about 04:50 SAST, and **updated at about 05:10 SAST** after the open decisions were closed (D-066) and the stale doc lines were fixed (PR #24), on branch `handoff-summary` (not merged into `main`). Facts only: each claim has a source (file, command or URL), and anything not verified is marked **UNVERIFIED** with the reason. No app code, tests, policy or eval logic was changed while writing this. All sample data is synthetic. No secret values appear here.
 
 Raw browser log of the judge-path walk-through: [`HANDOFF-judge-path-log.json`](HANDOFF-judge-path-log.json).
 
@@ -10,7 +10,7 @@ Raw browser log of the judge-path walk-through: [`HANDOFF-judge-path-log.json`](
 
 | Item | Value | Source |
 |---|---|---|
-| `main` SHA | `034f828796a79bd36e0db097bd234a84a90ad5e3` | `git rev-parse HEAD` after merging PR #23 |
+| `main` SHA | `034f828796a79bd36e0db097bd234a84a90ad5e3` when written; **after PR #24 (docs only) `main` is newer: run `git rev-parse origin/main`** | `git rev-parse HEAD` after merging PR #23 |
 | Open PRs | none | `gh pr list --state open` returned `[]` |
 | Last CI run on `main` | **success** for `034f828` (and for `8ced16f` before it) | `gh run list --branch main` |
 | CI jobs on the latest PR (#23, run 40808480033) | "Typecheck, test, build": pass (26 s). "Secrets scan (gitleaks)": pass (6 s). | `gh pr checks 23` |
@@ -112,7 +112,7 @@ Walked on https://clearance-gateway-web.vercel.app with a fresh profile. Exact t
 | What clean prompts go to when all providers are up | README (judge path) | Verified live: `POST /api/chat` Clean → "Approved enterprise AI" (tier 1, **mock**). Routing order `["mock-enterprise","gemini","groq"]` (`packages/core/src/policy/seed.ts:123`). This is the open decision **D-025**. |
 | Lens release version | README links `/releases/latest` | `lens-v0.3.0` zip: manifest `Clearance Gateway Lens (demo)` **0.3.0**, includes `icons\*.png`. `main`: `Clearance Gateway Lens` 0.3.0. **Version matches; the release zip still has "(demo)" in the extension name** (built before the label tweak). |
 
-**Other stale or inconsistent statements found:**
+**Other stale or inconsistent statements found** (items 1, 2, 3 and the README Reset label were **fixed in PR #24**; the rest remain):
 1. `docs/architecture.md` lines 66-73, "Not built" lists "Browser extension (Lens): stretch, Phase 7". **Wrong: Lens is built.**
 2. `docs/limitations.md` line 3 says "SPEC §19 has the starting list"; that section is now §16 after the spec was trimmed.
 3. `docs/security.md` line 55 says "It was not switched on tonight…" (time-relative wording).
@@ -140,7 +140,9 @@ Walked on https://clearance-gateway-web.vercel.app with a fresh profile. Exact t
 
 **Added after D-063:** D-064 (diagrams restyled to plain draw.io), D-065 (final polish: footer and logo dot removed, CLAUDE.md untracked, SPEC trimmed, README rewritten).
 
-**Still waiting on Collins:**
+**Update 05:10: all closed by D-066 (Collins delegated: "use best practices").** D-024 kept as written; D-025 kept (approved provider first); D-040 presented as 0 routing errors + 6 detection misses. The list below is the original record.
+
+**Originally waiting on Collins:**
 - **D-024**: how the seed policy text maps to rules (redact vs block, exceptions by narrowing). "Collins to review the clause interpretation."
 - **D-025**: routing order. SPEC order kept (tier-1 mock first, so clean prompts get mock replies). Alternative: put Gemini first. Not chosen yet.
 - **D-040**: how to present failover safety (0 routing errors + 6 detection misses vs a single "6"). README and Evaluation page use the first wording; not explicitly confirmed.

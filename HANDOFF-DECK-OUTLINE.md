@@ -1,0 +1,29 @@
+# Deck outline (about 13 slides) mapped to the Credify rubric
+
+Rubric: Problem understanding 20 · Systems thinking 20 · Innovation 20 · Technical solution 15 · Articulation 15 · Security / misuse 10.
+**[C]** = content must come from Collins (his analysis). Everything else is verified in `HANDOFF.md` (section in brackets). Visuals are in `docs/diagrams/` and `docs/screenshots/`.
+
+| # | Slide (title = the takeaway) | Rubric | Key message and facts | Visual |
+|---|---|---|---|---|
+| 1 | **Clearance Gateway: data only goes where it's cleared to go** | Articulation | One sentence: a policy gateway plus a browser extension so company AI policy is enforced where data leaves. Credify 2026, area 01. Live URL. | Logo mark (`extension/icons/icon128.png`), live URL |
+| 2 | **The problem** **[C]** | Problem (20) | Employees use AI tools faster than security guidance. Policies sit on paper. **[C]** who is harmed; the SA angle (POPIA, SA ID numbers). SPEC §1 has the Kaspersky SA data point. | **[C]** one striking stat or scenario |
+| 3 | **Why it keeps happening: the system** **[C]** | Systems (20) + Problem | The causal loops that sustain the problem (friction → bypass → shadow AI → incidents → stricter bans → more friction, or Collins's own). Stakeholders around the loop. | System-map diagram (to be drawn from Collins's loops) |
+| 4 | **Where we intervene, and why there** **[C]** | Systems + Innovation | The leverage point: keep the safe path useful (pseudonymise and explain instead of only blocking) and enforce at the point of use. Why not ban / train / DLP only. | Same diagram with the intervention marked |
+| 5 | **What we built** | Technical (15) | Admin writes policy once → LLM drafts → human reviews → deterministic enforcement. **No LLM decides what gets through.** Live on Vercel + Supabase, real Gemini and Groq. | `docs/diagrams/architecture.png` |
+| 6 | **One prompt, end to end** | Technical + Articulation | Detect → decide by role and tier → redact/pseudonymise → route → check the reply → explain. Show the ID-number example and its "Why". [§5] | `prompt-flow.png` + `screenshots/assistant-id-number.png`, `reply-why.png` |
+| 7 | **Fail closed: the outage test** | Systems + Security (10) | With the approved provider down: naive "try the next provider" sends **87 of 87** confidential requests to a lower tier; the router makes **0 routing errors**, blocks 81; **6** got through because their data went undetected. Routing is only as good as detection. [§3] | `failover-sequence.png` + `screenshots/fail-closed-block.png` |
+| 8 | **Policy in plain English, a person stays in charge** | Innovation (20) | Compile to a **draft**; decision diff flags looser changes; simulator; **policy floor** refuses anything looser than baseline (proved live: 98 looser decisions refused). Compiler check: 3/3 valid, **0 looser**, 35 stricter. [§3, `docs/security.md`] | `policy-lifecycle.png` + `screenshots/policy-decision-diff.png` |
+| 9 | **Why there is also a browser extension (Lens)** | Innovation + Problem | A gateway only protects the route people choose. Employees paste into whatever AI site is open. Lens brings the same checks there: quick check, right-click, protect a chosen site. Opt-in, reads nothing unless asked, fails closed. Honest: Chromium only, load-unpacked, heuristic on other sites, overlay verified on the fictional OpenBox page only. | `use-cases.png`; Lens icon; (no overlay screenshot yet) |
+| 10 | **Measured, not assumed** | Technical + Innovation | 195 synthetic test prompts, template-disjoint split, seed 20261029. Precision **100%**, recall **92.9%**, evasion **45/54**, trap false alarms **0%** (regex-only: precision 55.6%, recall 59.5%, evasion 3/54, traps 64.4%). Sensitive values reaching a provider unprotected: **9 of 126** (regex-only 48, no gateway 126). Policy matrix **96/96**. All synthetic. [§3] | `screenshots/evaluation.png` or the results table |
+| 11 | **What it still misses (honest limits)** | Security + Articulation | Detection is pattern-based: misses digits written as words, `[at]`/`[dot]` emails, keys split across lines; no contextual secrets. Compiler can misread wording (stricter, never looser, 3/3). Shared demo admin code; no pilot yet. Provider tiers are demo configuration. [`docs/limitations.md`] | Short list, no diagram |
+| 12 | **Security and misuse awareness** | Security (10) | No prompt or reply text stored (audit has **no text column**); RLS on, service-role key API-only; rate limits and compile budget; policy floor; security headers; `npm audit` 0 vulnerabilities; gitleaks on every PR. Threat model: `docs/security.md`. | `data-model.png` |
+| 13 | **Pilot, impact, next steps** **[C]** | Problem + Systems | **[C]** what to measure in a 4-week pilot and the stop condition. Roadmap from the repo: SSO and per-admin audit, tamper-evident audit, second-opinion check (tighten-only), Web Store listing. Ask: what we need next. | Simple timeline |
+| 14 | **How it was built (AI-use disclosure)** **[C]** | Articulation | Claude Code wrote most code, tests and technical docs under Collins's direction; Collins made the design and scope decisions (list in `HANDOFF.md` §11 and `docs/decisions.md`, 65+ logged choices). **[C]** Collins's own paragraph on what he designed and decided. | Decision-log excerpt |
+
+## Notes for whoever builds the slides
+
+- One idea per slide, the title states it, 3–5 short lines maximum, numbers large.
+- Use the **demo script** from the README's 2-minute judge path for the live demo slot: ID-number sample → Send → outage → blocked → Evaluation.
+- Colours (FinMe): forest `#12503A`, sage `#7D8B6A`, clay `#A65D3A` (alerts and blocks only), paper `#FBFAF7`, ink `#14140F`. Fonts: Hanken Grotesk and JetBrains Mono.
+- Never imply a vendor's real data handling: "tiers are demo configuration". OpenBox is fictional.
+- Keep the facts in sync with `HANDOFF.md`. If a number is not there, leave it out.
