@@ -27,11 +27,11 @@ Built for the **Credify System Thinking Challenge 2026**, challenge area 01 (AI 
 2. Click the **ID number** sample.
    - The ID number is highlighted, and **What will be sent** shows `[REDACTED:SA_ID]`.
    - Click **Send**. Under **Why**: *"Removed 1 South African ID number. Rule R-PII-01: ID numbers may not be sent to AI providers."*
-3. Open **Demo controls** at the bottom, enter the admin code, and click **Simulate outage** next to *Approved enterprise AI (demo)*.
+3. Open **Simulate a provider outage** at the bottom, enter the admin code, and click **Simulate outage** next to *Approved enterprise AI*.
 4. Click **Send** again. *"Blocked: no approved provider is available for confidential data right now (fail closed, rule R-ROUTE-01)."* The data is not sent to a lower-tier provider.
    - Optional: click the **Clean** sample and send it. It fails over to a real model (Google Gemini), because public data is cleared for tier 2.
 5. Open **Evaluation** for the measured results against two baselines.
-6. Click **Reset demo** (outages also switch off by themselves after 10 minutes).
+6. Click **Reset** (outages also switch off by themselves after 10 minutes).
 
 More to try:
 - **API key** sample: blocked, with coaching.
@@ -120,7 +120,7 @@ npm run eval             # regenerate the synthetic dataset and eval/results/*
 | `CORS_ORIGINS` | API | Allowed web origins (comma-separated) |
 | `VITE_API_URL` | Web | API base URL |
 
-## Lens: browser extension (demo)
+## Lens: browser extension
 
 Lens brings Clearance Gateway's checks to the browser, before text reaches an AI tool.
 

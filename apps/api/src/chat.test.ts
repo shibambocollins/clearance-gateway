@@ -43,7 +43,7 @@ describe("POST /api/chat (offline mode)", () => {
   it("answers a clean prompt through tier 1 and says it's offline", async () => {
     const { body } = await chat("clean");
     expect(body).toMatchObject({ outcome: "sent", offlineMode: true, provider: { id: "mock-enterprise", mock: true } });
-    expect(body.reply).toContain("Deterministic demo reply");
+    expect(body.reply).toContain("Mock reply from");
   });
 
   it("redacts the ID number before sending; the reply never contains it", async () => {
@@ -104,7 +104,7 @@ describe("admin outage toggle (fail closed)", () => {
 
     const clean = await chat("clean");
     expect(clean.body.provider).toMatchObject({ id: "gemini", mock: true });
-    expect(clean.body.reply).toContain("a mock standing in for Google Gemini (demo)");
+    expect(clean.body.reply).toContain("a mock standing in for Google Gemini");
 
     // /api/check and /api/providers reflect the outage too.
     const preview = await (await postJson("/api/check", { text: SAMPLE_PROMPTS[1]!.text })).json();
