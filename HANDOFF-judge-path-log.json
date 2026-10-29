@@ -1,0 +1,116 @@
+{
+  "title": "Clearance Gateway",
+  "nav": [
+    "Assistant",
+    "Dashboard",
+    "Evaluation",
+    "How it works",
+    "OpenBox (fictional)",
+    "Policy",
+    "Simulator",
+    "Providers"
+  ],
+  "header": "POLICY UPDATED OCT 29, 04:44 AM",
+  "samples": [
+    "Clean",
+    "ID number",
+    "API key",
+    "Client name",
+    "HR case",
+    "Outage case"
+  ],
+  "step2_clickedSample": true,
+  "step2_marks": [
+    "8001015009087"
+  ],
+  "step2_badge": [
+    "REDACTED",
+    "REDACTED"
+  ],
+  "step2_whatWillBeSent": [
+    "Summarise this complaint: the customer with ID number [REDACTED:SA_ID] says her delivery arrived three days late."
+  ],
+  "step2_clickedSend": true,
+  "step2_why": [
+    "Removed 1 South African ID number. Rule R-PII-01: ID numbers may not be sent to AI providers.",
+    "Sent to Approved enterprise AI (tier 1)."
+  ],
+  "step2_reply": [
+    "(Mock reply from Approved enterprise AI. No real model was called.) |  | I received a 16-word request with 1 value removed. |  | Draft: \"Hello team, here is a short update regarding your request. The details are being finalised and we will confirm next steps by Friday. Kind regards.\""
+  ],
+  "step2_provider": [
+    "Approved enterprise AI · tier 1 · mock"
+  ],
+  "step2_resultBadge": [
+    "REDACTED"
+  ],
+  "step3_openSummary": true,
+  "step3_buttons": [
+    "Simulate outage",
+    "Simulate outage",
+    "Simulate outage",
+    "Reset (seed policy, no outages)"
+  ],
+  "step3_code": true,
+  "step3_clickedOutage": true,
+  "step3_buttonsAfter": [
+    "Outage on: restore",
+    "Simulate outage",
+    "Simulate outage",
+    "Reset (seed policy, no outages)"
+  ],
+  "step4_clickedSend": true,
+  "step4_why": [
+    "Blocked: no approved provider is available for confidential data right now (fail closed, rule R-ROUTE-01).",
+    "Not used: Approved enterprise AI (unavailable); Google Gemini (not cleared for confidential data); Groq (not cleared for confidential data)."
+  ],
+  "step4_resultBadge": [
+    "BLOCKED"
+  ],
+  "step4b_sample": true,
+  "step4b_send": true,
+  "step4b_provider": [
+    "Google Gemini · tier 2"
+  ],
+  "step4b_why": [
+    "No sensitive data found.",
+    "Sent to Google Gemini (tier 2); skipped Approved enterprise AI (unavailable)."
+  ],
+  "step6_clickedReset": true,
+  "apiResetStatusAlso": 200,
+  "eval_h1": [
+    "Evaluation"
+  ],
+  "eval_tiles": [
+    "92.9% | RECALL | 117 of 126 sensitive values found",
+    "100.0% | PRECISION | 0 false alarms on labelled prompts",
+    "0.0% | TRAP PROMPTS FLAGGED | 45 look-alikes; regex-only: 64.4%",
+    "0 | UNSAFE ROUTING DECISIONS IN AN OUTAGE | naive fallback: 87 of 87",
+    "96/96 | POLICY MATRIX CELLS CORRECT",
+    "0.047 ms | CHECK LATENCY (P50) | p95 0.09 ms, in-process"
+  ],
+  "dash_tiles": [
+    "38 | REQUESTS",
+    "25 | CONTAINED SENSITIVE DATA",
+    "12 | BLOCKED | by rule or fail closed",
+    "13 | SENT AFTER REDACTION OR PSEUDONYMISATION",
+    "109 ms | MEDIAN END-TO-END LATENCY | sent requests, including the provider"
+  ],
+  "policy_code": true,
+  "policy_versions": [
+    "4 draft gemini:gemini-3.5-flash-lite 10/29/2026, 2:06:04 AM Review",
+    "3 archived gemini:gemini-3.5-flash-lite 10/28/2026, 11:16:24 PM Review",
+    "2 draft gemini:gemini-3.5-flash-lite 10/28/2026, 11:16:20 PM Review",
+    "1 active seed 10/28/2026, 8:44:11 PM"
+  ],
+  "policy_reviewClicked": true,
+  "policy_diffSummary": [
+    "98 changes would LOOSEN protection. Check each one against the policy text before activating.",
+    "Terms no longer protected: harbourview clinic, meridian mining, project fynbos, project baobab"
+  ],
+  "policy_activateButton": [
+    "Compile to a draft",
+    "Activate this version"
+  ],
+  "finalReset": 200
+}
