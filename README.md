@@ -31,6 +31,16 @@ It is opt-in and private by design. Lens reads nothing unless you protect a site
 
 The demo target is **OpenBox**, a fictional unapproved AI site (it calls no AI and imitates no real product). Install steps are [below](#lens-browser-extension).
 
+## What it looks like
+
+![The Assistant: the ID number is highlighted and the redacted text is shown before sending](docs/screenshots/assistant-id-number.png)
+
+![With the approved provider down, the same prompt is blocked (fail closed)](docs/screenshots/fail-closed-block.png)
+
+![The Evaluation page](docs/screenshots/evaluation.png)
+
+More screenshots (reply and "Why", dashboard, policy decision diff) are in [`docs/screenshots/`](docs/screenshots/).
+
 ## 2-minute judge path
 
 1. Open the **app**. You land on the employee **Assistant**.
