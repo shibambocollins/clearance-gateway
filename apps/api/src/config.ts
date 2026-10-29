@@ -15,6 +15,8 @@ export interface Config {
   clientHashSalt: string;
   rateLimitPerClientPerDay: number;
   globalDailyCap: number;
+  /** Refuse activating a policy looser than the seed baseline (on unless POLICY_FLOOR=off). */
+  policyFloor: boolean;
 }
 
 const positiveInt = (value: string | undefined, fallback: number) => {
@@ -41,5 +43,6 @@ export function getConfig(env: NodeJS.ProcessEnv = process.env): Config {
     clientHashSalt: env.CLIENT_HASH_SALT ?? "",
     rateLimitPerClientPerDay: positiveInt(env.RATE_LIMIT_PER_CLIENT_PER_DAY, 50),
     globalDailyCap: positiveInt(env.GLOBAL_DAILY_CAP, 1000),
+    policyFloor: env.POLICY_FLOOR !== "off",
   };
 }

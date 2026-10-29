@@ -121,7 +121,7 @@ export function mockAdapter(label: string): ProviderAdapter {
       const words = prompt.trim().split(/\s+/).length;
       const subject = placeholders.length > 0 ? placeholders.join(" and ") : "your request";
       const lines = [
-        `(Deterministic demo reply from ${label}. No real model was called.)`,
+        `(Mock reply from ${label}. No real model was called.)`,
         `I received a ${words}-word request${redactions > 0 ? ` with ${redactions} value${redactions === 1 ? "" : "s"} removed` : ""}.`,
         `Draft: "Hello team, here is a short update regarding ${subject}. The details are being finalised and we will confirm next steps by Friday. Kind regards."`,
       ];

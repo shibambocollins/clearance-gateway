@@ -63,7 +63,7 @@ describe("provider failure → re-route under the same policy", () => {
     expect(providerCalls).toEqual(["gemini", "groq"]);
     expect(body).toMatchObject({ outcome: "sent", reply: "Reply from the tier-3 model.", provider: { id: "groq", mock: false } });
     expect(body.explanation[0]).toBe(
-      "Google Gemini (demo) did not respond, so the request was routed again under the same policy.",
+      "Google Gemini did not respond, so the request was routed again under the same policy.",
     );
   });
 
