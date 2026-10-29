@@ -27,6 +27,18 @@ app.use(
 );
 app.use(express.json({ limit: "16kb" }));
 
+// Responses may contain the redacted text a user is about to send: never cache them, never frame.
+app.use((_req, res, next) => {
+  res.set({
+    "Cache-Control": "no-store",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer",
+    "X-Frame-Options": "DENY",
+    "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'",
+  });
+  next();
+});
+
 app.get("/", (_req, res) => {
   res.json({ service: "Clearance Gateway API", health: "/health" });
 });

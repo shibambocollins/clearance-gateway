@@ -46,3 +46,22 @@ export async function consumeQuota(req: Request): Promise<Quota> {
   }
   return { mockReason: null };
 }
+
+const COMPILES_PER_CLIENT_PER_DAY = 10;
+const COMPILES_PER_DAY = 100;
+
+/**
+ * The policy compiler calls a real LLM, and the demo admin code is public, so compiles get their
+ * own small daily budget (per visitor and in total). Fails closed: no counter, no compile.
+ */
+export async function allowCompile(req: Request): Promise<boolean> {
+  const db = getDb();
+  if (!db) return true; // local development without a database
+  const day = new Date().toISOString().slice(0, 10);
+  const [client, global] = await Promise.all([
+    db.rpc("increment_usage", { p_day: day, p_client_hash: `compile:${clientHash(req)}` }),
+    db.rpc("increment_usage", { p_day: day, p_client_hash: "compile:__global__" }),
+  ]);
+  if (client.error || global.error) return false;
+  return (client.data as number) <= COMPILES_PER_CLIENT_PER_DAY && (global.data as number) <= COMPILES_PER_DAY;
+}

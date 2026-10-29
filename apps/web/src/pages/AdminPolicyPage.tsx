@@ -17,15 +17,19 @@ import { useAdminCode } from "../adminCode";
 import { AdminCodeField } from "../components/AdminCodeField";
 import { PolicyDiffSummary, RulesTable } from "../components/PolicyReview";
 
+const ERRORS: Record<string, string> = {
+  compiler_unavailable: "The compiler needs a real AI provider (it is unavailable in offline mode).",
+  compiler_invalid_output: "The compiler could not produce a valid policy. Nothing was saved or activated; try rephrasing.",
+  compile_limit_reached: "The daily compile limit for this demo has been reached. Existing versions can still be reviewed.",
+  looser_than_floor:
+    "Not activated: this version would protect less than the baseline policy in at least one case. The public demo only allows equal or stricter policies.",
+};
+
 const errorText = (err: unknown) =>
   err instanceof ApiError
     ? err.status === 401
       ? "Wrong or missing admin code."
-      : err.code === "compiler_unavailable"
-        ? "The compiler needs a real AI provider (it is unavailable in offline mode)."
-        : err.code === "compiler_invalid_output"
-          ? "The compiler could not produce a valid policy. Nothing was saved or activated; try rephrasing."
-          : `Request failed (${err.code}).`
+      : (ERRORS[err.code] ?? `Request failed (${err.code}).`)
     : "Request failed.";
 
 export function AdminPolicyPage() {

@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   ROLE_IDS,
   SAMPLE_PROMPTS,
+  SEED_POLICY,
   check,
   policyDiff,
   policySchema,
@@ -12,6 +13,8 @@ import {
   type RoleId,
 } from "@clearance-gateway/core";
 import { requireAdmin } from "../adminAuth.js";
+import { getConfig } from "../config.js";
+import { allowCompile } from "../rateLimit.js";
 import { CompilerError, compilePolicy } from "../compiler/compile.js";
 import { getDb } from "../db/client.js";
 import { clearPolicyCache, getActivePolicy } from "../policy/active.js";
@@ -44,6 +47,10 @@ policyRouter.post("/api/policy/compile", requireAdmin, async (req, res) => {
   const parsed = compileSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: "invalid_request", fields: ["rawText"] });
+    return;
+  }
+  if (!(await allowCompile(req))) {
+    res.status(429).json({ error: "compile_limit_reached" });
     return;
   }
   const active = await getActivePolicy();
@@ -93,9 +100,19 @@ policyRouter.post("/api/policy/:id/activate", requireAdmin, async (req, res) => 
     return;
   }
   // Re-validate before it can affect enforcement.
-  if (!policySchema.safeParse(row.compiled).success) {
+  const candidate = policySchema.safeParse(row.compiled);
+  if (!candidate.success) {
     res.status(422).json({ error: "invalid_policy" });
     return;
+  }
+  // Policy floor: the demo admin code is public, so nobody may activate rules that protect LESS
+  // than the baseline (seed) policy. Tightening is always allowed (D-061).
+  if (getConfig().policyFloor) {
+    const floor = policyDiff(SEED_POLICY, candidate.data);
+    if (floor.looserCount > 0) {
+      res.status(409).json({ error: "looser_than_floor", looserCount: floor.looserCount });
+      return;
+    }
   }
   const { data: version, error: rpcError } = await db.rpc("activate_policy", { p_id: id });
   if (rpcError) throw new Error("Activation failed");

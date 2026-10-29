@@ -39,3 +39,8 @@ Measured rates come from the Bench (`eval/results/`), not from this list. Cleara
 - Paste-time checks, file uploads, screenshots and voice input are not covered.
 - The demo page must be opened with a full page load (the static content script matches the URL at load time).
 - No GIF recording yet. The end-to-end check is manual (README steps).
+
+## Demo security (see docs/security.md)
+
+- The admin code is public for judges. A **policy floor** stops anyone activating a policy looser than the baseline; tightening, simulated outages (10-minute expiry) and compiles (daily budget) remain open to anyone with the code.
+- Provider API keys were reused from other local projects for testing and should be rotated after the challenge.

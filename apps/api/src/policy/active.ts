@@ -15,6 +15,8 @@ export interface ActivePolicy {
   rawText: string;
   version: number | null;
   id: string | null;
+  /** When the active version was activated (ISO), or null for the in-memory seed. */
+  updatedAt: string | null;
   source: PolicySource;
   /** True when the database should have answered but didn't: the seed policy is a fallback. */
   degraded: boolean;
@@ -38,6 +40,7 @@ const seed = (source: PolicySource, degraded: boolean): ActivePolicy => ({
   rawText: SEED_POLICY_TEXT,
   version: null,
   id: null,
+  updatedAt: null,
   source,
   degraded,
 });
@@ -46,7 +49,7 @@ async function loadActivePolicy(): Promise<ActivePolicy> {
   const db = getDb();
   if (!db) return seed("seed (database not configured)", false);
 
-  const query = db.from("policy_versions").select("id, version, compiled, raw_text").eq("status", "active").maybeSingle();
+  const query = db.from("policy_versions").select("id, version, compiled, raw_text, activated_at, created_at").eq("status", "active").maybeSingle();
   const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), DB_TIMEOUT_MS));
   const result = await Promise.race([query, timeout]);
   if (!result || result.error) return seed("seed (database unreachable)", true);
@@ -62,6 +65,7 @@ async function loadActivePolicy(): Promise<ActivePolicy> {
     rawText: result.data.raw_text,
     version: result.data.version,
     id: result.data.id,
+    updatedAt: result.data.activated_at ?? result.data.created_at,
     source: "database",
     degraded: false,
   };

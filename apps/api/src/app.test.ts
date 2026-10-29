@@ -72,3 +72,12 @@ describe("errors", () => {
     expect(await res.text()).not.toContain("SECRET123");
   });
 });
+
+describe("security headers", () => {
+  it("API responses are never cached or framed", async () => {
+    const res = await fetch(`${baseUrl}/health`);
+    expect(res.headers.get("cache-control")).toBe("no-store");
+    expect(res.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(res.headers.get("x-frame-options")).toBe("DENY");
+  });
+});
