@@ -23,6 +23,7 @@ healthRouter.get("/health", async (_req, res) => {
     offlineMode: getConfig().offlineMode,
     db: DB_STATUS[active.source],
     activePolicyVersion: active.version,
+    policyUpdatedAt: active.updatedAt,
     policySource: active.source,
     time: new Date().toISOString(),
   });

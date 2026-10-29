@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState, type ReactNode } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { getHealth, type Health } from "./api";
 import { AdminCodeProvider } from "./adminCode";
 import { AboutPage } from "./pages/AboutPage";
@@ -17,8 +17,25 @@ type HealthState = { kind: "connecting" } | { kind: "ok"; health: Health } | { k
 
 const later = (page: ReactNode) => <Suspense fallback={<p>Loading…</p>}>{page}</Suspense>;
 
+/** "Policy updated 28 Oct, 21:16", or the in-memory seed when the database is unavailable. */
+function policyStatus(health: Health): string {
+  if (!health.policyUpdatedAt) return "Seed policy (in memory)";
+  const when = new Date(health.policyUpdatedAt).toLocaleString(undefined, {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `Policy updated ${when}`;
+}
+
 export function App() {
   const [health, setHealth] = useState<HealthState>({ kind: "connecting" });
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  // Close the phone menu after navigating.
+  useEffect(() => setMenuOpen(false), [location.pathname]);
 
   useEffect(() => {
     getHealth()
@@ -33,7 +50,16 @@ export function App() {
           <span className="brand-name">Clearance Gateway</span>
           <span className="tagline">Data only goes where it's cleared to go.</span>
         </div>
-        <nav aria-label="Main">
+        <button
+          type="button"
+          className="menu-button"
+          aria-expanded={menuOpen}
+          aria-controls="main-nav"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? "Close" : "Menu"}
+        </button>
+        <nav id="main-nav" aria-label="Main" className={menuOpen ? "open" : ""}>
           <NavLink to="/" end>
             Assistant
           </NavLink>
@@ -41,7 +67,7 @@ export function App() {
           <NavLink to="/evaluation">Evaluation</NavLink>
           <NavLink to="/about">How it works</NavLink>
           {/* A full page load, so the Lens content script (matched on this URL) is injected. */}
-          <a href="/demo-chat">Demo chat (fictional)</a>
+          <a href="/demo-chat">OpenBox (fictional)</a>
           <span className="nav-group" aria-label="Admin">
             <NavLink to="/admin/policy">Policy</NavLink>
             <NavLink to="/admin/simulate">Simulator</NavLink>
@@ -51,8 +77,7 @@ export function App() {
         <span className={`status status-${health.kind}`} role="status">
           {health.kind === "connecting" && "Connecting…"}
           {health.kind === "error" && "API unreachable"}
-          {health.kind === "ok" &&
-            `Policy v${health.health.activePolicyVersion ?? "seed"} · Engine ${health.health.coreVersion}`}
+          {health.kind === "ok" && policyStatus(health.health)}
         </span>
       </header>
       {health.kind === "ok" && health.health.offlineMode && (

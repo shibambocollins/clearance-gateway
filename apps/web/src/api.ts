@@ -12,6 +12,7 @@ export interface Health {
   offlineMode: boolean;
   db: "ok" | "unreachable" | "not_configured";
   activePolicyVersion: number | null;
+  policyUpdatedAt: string | null;
   policySource: string;
   time: string;
 }
