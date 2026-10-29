@@ -1038,3 +1038,106 @@ pre.sent {
 .flow + p {
   margin-top: 12px;
 }
+
+/* ============================================================
+   Phone header: brand + menu button; the nav opens as a panel (FinMe pattern).
+   ============================================================ */
+
+.menu-button {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .site-header {
+    gap: 8px 16px;
+  }
+  .brand {
+    flex: 1;
+  }
+  .menu-button {
+    display: inline-flex;
+    min-height: 40px;
+    padding: 6px 14px;
+    background: var(--card);
+  }
+  .site-header nav {
+    display: none;
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding: 8px 0 4px;
+    border-top: 1px solid var(--line);
+  }
+  .site-header nav.open {
+    display: flex;
+  }
+  .site-header nav a {
+    padding: 11px 10px;
+    border-radius: 7px;
+    font-size: 15.5px;
+    min-height: 44px;
+  }
+  .site-header nav a:hover {
+    background: var(--stone);
+  }
+  .site-header nav a.active {
+    background: var(--forest-wash);
+  }
+  .site-header .nav-group {
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 0 0;
+    margin-top: 6px;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+  .status {
+    order: 4;
+    flex-basis: 100%;
+  }
+  main {
+    padding-top: 20px;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .page-header p,
+  .lead {
+    font-size: 15.5px;
+  }
+  .tiles {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .tile-value {
+    font-size: 24px;
+  }
+  .data-table th,
+  .data-table td {
+    padding: 8px 10px;
+  }
+  .flow-arrow {
+    display: none;
+  }
+  .preview-head {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .tagline {
+    display: none;
+  }
+  .samples .chip {
+    flex: 1 1 calc(50% - 8px);
+  }
+  .row > button,
+  .card > button.primary {
+    width: 100%;
+  }
+  select {
+    max-width: none;
+    width: 100%;
+  }
+}

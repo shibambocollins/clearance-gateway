@@ -1,4 +1,4 @@
-// Demo controls: simulate a provider outage (admin code required) to show fail-closed routing.
+// Outage controls: simulate a provider outage (admin code required) to show fail-closed routing.
 import { useCallback, useEffect, useState } from "react";
 import { ApiError, getProviders, resetDemo, setOutage, type ProviderStatus } from "../api";
 import { useAdminCode } from "../adminCode";
@@ -32,7 +32,7 @@ export function DemoControls({ onChange }: { onChange?: () => void }) {
 
   return (
     <details className="card demo-controls">
-      <summary>Demo controls: simulate a provider outage</summary>
+      <summary>Simulate a provider outage</summary>
       <label className="field">
         Admin code
         <input type="password" value={code} onChange={(e) => setCode(e.target.value)} autoComplete="off" />
@@ -59,7 +59,7 @@ export function DemoControls({ onChange }: { onChange?: () => void }) {
       </ul>
       <p className="muted">Simulated outages switch themselves off after 10 minutes.</p>
       <button type="button" disabled={busy || !code} onClick={() => run(() => resetDemo(code))}>
-        Reset demo (seed policy, no outages)
+        Reset (seed policy, no outages)
       </button>
       {error && <p className="error">{error}</p>}
     </details>
