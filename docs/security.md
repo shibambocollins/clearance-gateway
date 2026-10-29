@@ -52,7 +52,7 @@
 ## Recommendations (not done: need Collins's decision or are post-challenge)
 
 - **Rotate after judging:** the demo admin code, and the Gemini/Groq keys reused from other projects (D-037). Give this project its own keys.
-- **Enable Dependabot alerts and security updates** in the repository settings (Settings → Code security). It was not switched on tonight to avoid automated PRs during judging.
+- **Enable Dependabot alerts and security updates** in the repository settings (Settings → Code security). It was left off during judging to avoid automated pull requests.
 - **Production auth:** replace the shared admin code with SSO and per-admin audit of policy changes (who compiled, who activated).
 - **Tamper-evident audit:** the SPEC's hash chain (COULD) would make audit edits detectable.
 - **Second-opinion check:** an LLM may only *tighten* a decision, never loosen it (SPEC §10), for contextual secrets the patterns can't see.
